@@ -48,4 +48,5 @@
     <string name="bottom_menu_translator">Translator</string>
     <string name="bottom_menu_settings">Settings</string>
     <string name="bottom_menu_saved_words">Saved words</string>
+    <string name="home_screen_make_first_search_hint">Type a word into the search bar. Recent searches will appear here.</string>
 </resources>
