@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_menu_dictionary"
+        android:title="@string/bottom_menu_dictionary"
+        android:icon="@android:drawable/star_on"/>
+
+    <item
+        android:id="@+id/bottom_menu_saved_words"
+        android:title="@string/bottom_menu_saved_words"
+        android:icon="@android:drawable/star_on"/>
+
+    <item
+        android:id="@+id/bottom_menu_tts"
+        android:title="@string/bottom_menu_text_to_speech"
+        android:icon="@android:drawable/star_on"/>
+
+    <item
+        android:id="@+id/bottom_menu_translator"
+        android:title="@string/bottom_menu_translator"
+        android:icon="@android:drawable/star_on"/>
+
+    <item
+        android:id="@+id/bottom_menu_settings"
+        android:title="@string/bottom_menu_settings"
+        android:icon="@android:drawable/star_on"/>
+
+
+</menu>
