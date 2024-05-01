@@ -12,4 +12,7 @@ import androidx.room.RoomDatabase
     version = 2
 )
 abstract class DictionaryDatabase : RoomDatabase() {
+
+    abstract fun crimeanTatarWordsDao(): CrimeanTatarWordsDao
+
 }
