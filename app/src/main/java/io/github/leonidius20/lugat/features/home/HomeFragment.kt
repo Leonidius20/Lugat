@@ -1,21 +1,24 @@
-package io.github.leonidius20.lugat
+package io.github.leonidius20.lugat.features.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentFirstBinding
-import io.github.leonidius20.lugat.features.home.HomeViewModel
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 @AndroidEntryPoint
-class FirstFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -32,7 +35,25 @@ class FirstFragment : Fragment() {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        viewModel.doRandomSearch()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    when(it) {
+                        is HomeViewModel.UiState.Loaded -> {
+                            // do something
+                        }
+                        is HomeViewModel.UiState.Uninitialized -> {
+                            // do nothing
+                        }
+                    }
+                }
+            }
+        }
+
+        //binding.mainScreenSearchBar.inflateMenu(R.menu.menu_main)
+        //binding.mainScreenSearchBar.setOnMenuItemClickListener {
+       //     return@setOnMenuItemClickListener true
+        //}
 
         return binding.root
 

@@ -1,14 +1,13 @@
 package io.github.leonidius20.lugat
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.databinding.ActivityMainBinding
 
@@ -24,11 +23,36 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // setSupportActionBar(binding.toolbar)
+        //setSupportActionBar(binding.mainScreenSearchBar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        //val navController = findNavController(R.id.nav_host_fragment_content_main)
         //appBarConfiguration = AppBarConfiguration(navController.graph)
-        // setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+
+        //binding.mainScreenSearchView.setupWithSearchBar()
+        //binding.mainScreenSearchBar.setu
+
+       // binding.mainScreenSearchView.setupWithSearchBar(binding.mainScreenSearchBar)
+
+        with(binding) {
+            searchBar.setNavigationOnClickListener {
+                Toast.makeText(this@MainActivity, "click on nab", Toast.LENGTH_SHORT).show()
+            }
+            with(searchView) {
+                setupWithSearchBar(searchBar)
+                inflateMenu(R.menu.menu_main)
+                editText.setOnEditorActionListener { textView, i, keyEvent ->
+                    val queryText = textView.text.toString()
+                    searchBar.setText(queryText)
+                    Toast.makeText(this@MainActivity, "You entered $queryText", Toast.LENGTH_SHORT)
+                        .show()
+                    hide() // searchView.hide()
+                    return@setOnEditorActionListener false
+                }
+            }
+
+
+        }
 
         /*binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -58,4 +82,5 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+    // comment out 3 methoda
 }

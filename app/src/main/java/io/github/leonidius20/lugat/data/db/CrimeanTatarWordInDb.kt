@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Fts4
 import androidx.room.PrimaryKey
+import io.github.leonidius20.lugat.domain.entities.CrimeanTatarWord
 
 @Entity(tableName = "words")
 @Fts4(tokenizer = "unicode61")
@@ -24,4 +25,13 @@ data class CrimeanTatarWordInDb(
 
     // @ColumnInfo(name = "ukrainian_translation")
     // val translationUkrainian: String,
-)
+) {
+
+    fun toDomainObject() = CrimeanTatarWord(
+        id = id,
+        wordLatin = wordLatin,
+        wordCyrillic = wordCyrillic,
+        translation = translation,
+    )
+
+}
