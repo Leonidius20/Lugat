@@ -94,4 +94,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    // todo: override back button to close the search view
 }
