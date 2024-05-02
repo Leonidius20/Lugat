@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000)
     )
 
-    fun doRandomSearch(query: String) {
+    fun performSearch(query: String) {
         viewModelScope.launch {
             repository.search(query)
         }

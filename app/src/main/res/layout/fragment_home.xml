@@ -10,8 +10,6 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:backgroundTintMode="add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +19,6 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorPrimaryContainer"
             android:hint="@string/main_screen_search_hint"
             app:menu="@menu/menu_main" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -33,7 +30,14 @@
         android:hint="@string/main_screen_search_hint"
         app:animateMenuItems="false"
         app:iconifiedByDefault="true"
-        app:useDrawerArrowDrawable="true" />
+        app:useDrawerArrowDrawable="true" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_results_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.search.SearchView>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_main_content"
@@ -44,7 +48,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar">
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        tools:ignore="PrivateResource">
 
         <LinearLayout
             android:layout_width="match_parent"
