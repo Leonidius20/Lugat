@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
-import io.github.leonidius20.lugat.databinding.FragmentFirstBinding
+import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch
 
 /**
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -33,7 +34,27 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        with(binding) {
+            searchBar.setNavigationOnClickListener {
+                Toast.makeText(context, "click on nab", Toast.LENGTH_SHORT).show()
+            }
+            with(searchView) {
+                setupWithSearchBar(searchBar)
+                inflateMenu(R.menu.menu_main)
+                editText.setOnEditorActionListener { textView, i, keyEvent ->
+                    val queryText = textView.text.toString()
+                    searchBar.setText(queryText)
+                    Toast.makeText(context, "You entered $queryText", Toast.LENGTH_SHORT)
+                        .show()
+                    hide() // searchView.hide()
+                    return@setOnEditorActionListener false
+                }
+            }
+
+
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

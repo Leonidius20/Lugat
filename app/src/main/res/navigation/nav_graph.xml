@@ -9,7 +9,7 @@
         android:id="@+id/FirstFragment"
         android:name="io.github.leonidius20.lugat.features.home.HomeFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
