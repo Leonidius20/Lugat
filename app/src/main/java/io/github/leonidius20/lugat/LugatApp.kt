@@ -17,10 +17,10 @@ class LugatApp: Application()
  *
  *
  * Beyond the scope of an MVP:
- * - algorithmic learning of words
+ * - algorithmic learning of words (quiz)
  * - translator
  * - Ukrainian translations
  * - links to other words in descriptions (although it would be nice in MVP)
- *
+ * - highlighting search matches with the material theme color
  *
  */

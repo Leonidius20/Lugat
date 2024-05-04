@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import io.github.leonidius20.lugat.features.home.ui.SearchResultListAdapter
@@ -54,6 +56,21 @@ class HomeFragment : Fragment() {
 
             searchResultsList.layoutManager = LinearLayoutManager(context)
 
+        }
+
+        // close search view on back button press
+        val backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            binding.searchView.hide()
+        }
+
+        // enable or disable the back button handling based on whether the search view is open
+        binding.searchView.addTransitionListener { searchView, oldState, newState ->
+            if (newState == SearchView.TransitionState.SHOWING) {
+                backPressedCallback.isEnabled = true
+            }
+            if (newState == SearchView.TransitionState.HIDING) {
+                backPressedCallback.isEnabled = false
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
