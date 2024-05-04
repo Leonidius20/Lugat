@@ -4,4 +4,5 @@
     <dimen name="large_padding">16dp</dimen>
 
     <dimen name="mega_padding">72dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
 </resources>

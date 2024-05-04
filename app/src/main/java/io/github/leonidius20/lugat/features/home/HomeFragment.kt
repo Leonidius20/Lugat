@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,6 +18,7 @@ import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
+import io.github.leonidius20.lugat.features.home.ui.MenuAdapter
 import io.github.leonidius20.lugat.features.home.ui.SearchResultListAdapter
 import kotlinx.coroutines.launch
 
@@ -32,6 +35,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<HomeViewModel>()
+
+    data class MenuItem(val title: String, @DrawableRes val icon: Int, val action: () -> Unit)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,11 +80,26 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.mainMenuList.adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.menu_items,
-            android.R.layout.simple_list_item_1
+        val menu = listOf(
+            MenuItem("Saved words", R.drawable.ic_launcher_foreground) {
+                Toast.makeText(requireContext(), "saved words", Toast.LENGTH_SHORT).show()
+            },
+            MenuItem("Transliteration tool", R.drawable.ic_launcher_foreground) {
+                Toast.makeText(requireContext(), "transliteration tool", Toast.LENGTH_SHORT).show()
+            },
+            MenuItem("Read aloud (text-to-speech)", R.drawable.ic_launcher_foreground) {
+                Toast.makeText(requireContext(), "read aloud", Toast.LENGTH_SHORT).show()
+
+            },
+            MenuItem("About app", R.drawable.ic_launcher_foreground) {
+
+            }
         )
+
+        binding.mainMenuList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = MenuAdapter(menu)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

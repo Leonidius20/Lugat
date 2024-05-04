@@ -13,6 +13,7 @@ navigationUiKtx = "2.7.7"
 room = "2.6.1"
 ksp = "1.9.23-1.0.20" # has to be compatible with kotlin version
 hilt = "2.49"
+material-lists = "0.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +30,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+material-lists = { group = "net.nicbell.material-lists", name = "listitem", version.ref = "material-lists" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

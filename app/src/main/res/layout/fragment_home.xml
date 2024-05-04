@@ -39,7 +39,7 @@
 
     </com.google.android.material.search.SearchView>
 
-    <androidx.core.widget.NestedScrollView
+    <!--<androidx.core.widget.NestedScrollView
         android:id="@+id/nested_main_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -51,13 +51,26 @@
         app:layout_constraintTop_toBottomOf="@+id/app_bar"
         tools:ignore="PrivateResource">
 
-        <ListView
-            android:id="@+id/main_menu_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@android:layout/simple_list_item_1" />
 
-    </androidx.core.widget.NestedScrollView>
+
+    </androidx.core.widget.NestedScrollView>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+
+
+
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        tools:listitem="@android:layout/simple_list_item_1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

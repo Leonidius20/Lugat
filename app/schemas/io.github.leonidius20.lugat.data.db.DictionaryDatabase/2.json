@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "131a5a92b65132a06513116ed7c7de3b",
+    "identityHash": "35090991755a1ec4b3fe8e86c3bb8439",
     "entities": [
       {
         "ftsVersion": "FTS4",
@@ -18,7 +18,7 @@
         },
         "contentSyncTriggers": [],
         "tableName": "words",
-        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`word_cyrillic` TEXT NOT NULL, `word_latin` TEXT, `translation` TEXT NOT NULL, `language` INTEGER NOT NULL, tokenize=unicode61)",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`word_cyrillic` TEXT NOT NULL, `word_latin` TEXT, `translation` TEXT NOT NULL, `language` TEXT NOT NULL, tokenize=unicode61)",
         "fields": [
           {
             "fieldPath": "wordCyrillic",
@@ -41,7 +41,7 @@
           {
             "fieldPath": "language",
             "columnName": "language",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -96,7 +96,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '131a5a92b65132a06513116ed7c7de3b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '35090991755a1ec4b3fe8e86c3bb8439')"
     ]
   }
 }

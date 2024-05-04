@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<net.nicbell.materiallists.ListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:headline="Headline"
+    app:sizeType="ONE_LINE"
+    app:dividerVisible="false"
+    app:supportText="Support text">
+
+<androidx.appcompat.widget.AppCompatImageView
+    android:id="@+id/menu_item_leading_icon"
+    style="@style/MaterialLists.LeadingIcon"
+    android:src="@drawable/ic_launcher_foreground"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+
+</net.nicbell.materiallists.ListItem>

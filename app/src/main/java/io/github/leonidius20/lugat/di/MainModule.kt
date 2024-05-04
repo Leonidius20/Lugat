@@ -24,6 +24,7 @@ class MainModule {
             DictionaryDatabase::class.java,
             "dictionary.db")
             .createFromAsset("dictionary.db")
+            .fallbackToDestructiveMigration() // todo: remove this
             .build()
     }
 

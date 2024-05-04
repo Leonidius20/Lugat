@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import io.github.leonidius20.lugat.R
-import io.github.leonidius20.lugat.domain.entities.CrimeanTatarWord
 
 class SearchResultListAdapter(
-    private val dataset: List<CrimeanTatarWord>
+    private val dataset: List<WordSearchResultUi>
 ): RecyclerView.Adapter<SearchResultListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -19,6 +19,7 @@ class SearchResultListAdapter(
 
         val titleView: TextView = view.findViewById(R.id.search_result_item_title)
         val descriptionView: TextView = view.findViewById(R.id.search_result_item_description)
+        val languageChip: Chip = view.findViewById(R.id.search_result_language_chip)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,13 +32,15 @@ class SearchResultListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = dataset[position]
 
-        holder.titleView.text = "${data.wordLatin} (${data.wordCyrillic})"
+        holder.titleView.text = data.title
 
         holder.descriptionView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(data.translation, Html.FROM_HTML_MODE_COMPACT)
+            Html.fromHtml(data.description, Html.FROM_HTML_MODE_COMPACT)
         } else {
-            Html.fromHtml(data.translation)
+            Html.fromHtml(data.description)
         }
+
+        holder.languageChip.text = data.language
     }
 
     override fun getItemCount(): Int {

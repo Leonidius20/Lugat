@@ -8,7 +8,7 @@ class LugatApp: Application()
 
 /**
  * Here's the scope of an MVP:
- * - implement search (rus-cht, cht-rus), put all words in one table maybe?
+ * [-] implement search (rus-cht, cht-rus), put all words in one table maybe?
  * - implement full screen description
  * - implement tts for words and phrases
  * - implement rus and ukr ui language
