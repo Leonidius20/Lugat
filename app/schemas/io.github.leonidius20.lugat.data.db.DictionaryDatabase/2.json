@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "59988de385cd9afa745571ad206df945",
+    "identityHash": "131a5a92b65132a06513116ed7c7de3b",
     "entities": [
       {
         "ftsVersion": "FTS4",
@@ -18,7 +18,7 @@
         },
         "contentSyncTriggers": [],
         "tableName": "words",
-        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`word_cyrillic` TEXT NOT NULL, `word_latin` TEXT NOT NULL, `russian_translation` TEXT NOT NULL, tokenize=unicode61)",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`word_cyrillic` TEXT NOT NULL, `word_latin` TEXT, `translation` TEXT NOT NULL, `language` INTEGER NOT NULL, tokenize=unicode61)",
         "fields": [
           {
             "fieldPath": "wordCyrillic",
@@ -30,50 +30,18 @@
             "fieldPath": "wordLatin",
             "columnName": "word_latin",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "translation",
-            "columnName": "russian_translation",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "rowid"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "ftsVersion": "FTS4",
-        "ftsOptions": {
-          "tokenizer": "unicode61",
-          "tokenizerArgs": [],
-          "contentTable": "",
-          "languageIdColumnName": "",
-          "matchInfo": "FTS4",
-          "notIndexedColumns": [],
-          "prefixSizes": [],
-          "preferredOrder": "ASC"
-        },
-        "contentSyncTriggers": [],
-        "tableName": "russian_word",
-        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`word` TEXT NOT NULL, `translation` TEXT NOT NULL, tokenize=unicode61)",
-        "fields": [
-          {
-            "fieldPath": "word",
-            "columnName": "word",
-            "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "translation",
             "columnName": "translation",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "language",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -128,7 +96,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '59988de385cd9afa745571ad206df945')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '131a5a92b65132a06513116ed7c7de3b')"
     ]
   }
 }

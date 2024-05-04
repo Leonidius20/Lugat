@@ -14,7 +14,8 @@ class LugatApp: Application()
  * - implement rus and ukr ui language
  * - maybe implement saving words as favorites, viewing recently saved and all favorites
  * - testing use case interactors maybe, maybe data converters
- *
+ * - transliterator tool?
+ *  - tts for phrases tool
  *
  * Beyond the scope of an MVP:
  * - algorithmic learning of words (quiz)

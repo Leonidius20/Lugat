@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "favourite_words", foreignKeys = [
     ForeignKey(
-        entity = CrimeanTatarWordInDb::class,
+        entity = WordInDb::class,
         parentColumns = ["rowid"],
         childColumns = ["word_id"],
         onDelete = ForeignKey.CASCADE,

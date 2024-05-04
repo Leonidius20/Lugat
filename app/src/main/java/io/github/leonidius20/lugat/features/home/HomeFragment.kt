@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import io.github.leonidius20.lugat.features.home.ui.SearchResultListAdapter
 import kotlinx.coroutines.launch
@@ -72,6 +74,12 @@ class HomeFragment : Fragment() {
                 backPressedCallback.isEnabled = false
             }
         }
+
+        binding.mainMenuList.adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.menu_items,
+            android.R.layout.simple_list_item_1
+        )
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

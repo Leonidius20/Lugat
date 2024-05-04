@@ -1,6 +1,6 @@
 package io.github.leonidius20.lugat.data.words
 
-import io.github.leonidius20.lugat.data.db.CrimeanTatarWordsDao
+import io.github.leonidius20.lugat.data.db.WordsDao
 import io.github.leonidius20.lugat.domain.entities.CrimeanTatarWord
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class CrimeanTatarWordsRepository @Inject constructor(
-    private val dao: CrimeanTatarWordsDao,
+    private val dao: WordsDao,
 ) {
 
     private val _searchResults = MutableStateFlow(emptyList<CrimeanTatarWord>())

@@ -5,14 +5,14 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [
-        CrimeanTatarWordInDb::class,
-        RussianWordInDb::class,
+        WordInDb::class,
+        // RussianWordInDb::class,
         FavouriteWordInDb::class,
     ],
     version = 2
 )
 abstract class DictionaryDatabase : RoomDatabase() {
 
-    abstract fun crimeanTatarWordsDao(): CrimeanTatarWordsDao
+    abstract fun crimeanTatarWordsDao(): WordsDao
 
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="menu_items">
+        <item>Saved words</item>
+        <item>Transliteration tool</item>
+        <item>Read aloud (text-to-speech)</item>
+        <item>Settings</item>
+    </array>
+
+</resources>

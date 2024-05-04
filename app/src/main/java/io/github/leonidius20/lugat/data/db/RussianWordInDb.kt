@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Fts4
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "russian_word")
+/*@Entity(tableName = "russian_word")
 @Fts4(tokenizer = "unicode61")
 data class RussianWordInDb(
 
@@ -16,4 +16,4 @@ data class RussianWordInDb(
     val word: String,
 
     val translation: String,
-)
+)*/

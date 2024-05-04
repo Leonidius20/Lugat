@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "io.github.leonidius20.lugat"
-        minSdk = 19
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
