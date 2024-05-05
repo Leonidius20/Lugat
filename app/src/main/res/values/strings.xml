@@ -50,4 +50,13 @@
     <string name="bottom_menu_saved_words">Saved words</string>
     <string name="home_screen_make_first_search_hint">Type a word into the search bar. Recent searches will appear here.</string>
     <string name="main_screen_search_hint">Search for words…</string>
+
+
+    <string name="sid_label">Speaker ID</string>
+    <string name="sid_hint">0</string>
+    <string name="speed_label">Speech speed (large->fast)</string>
+    <string name="speed_hint">1.0</string>
+    <string name="text_hint">Please input your text here</string>
+    <string name="generate">Generate</string>
+    <string name="play">Play</string>
 </resources>

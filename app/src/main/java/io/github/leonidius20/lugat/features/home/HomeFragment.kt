@@ -1,5 +1,6 @@
 package io.github.leonidius20.lugat.features.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.search.SearchView
+import com.k2fsa.sherpa.onnx.TtsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
@@ -88,7 +90,8 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "transliteration tool", Toast.LENGTH_SHORT).show()
             },
             MenuItem("Read aloud (text-to-speech)", R.drawable.ic_launcher_foreground) {
-                Toast.makeText(requireContext(), "read aloud", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(requireContext(), TtsActivity::class.java))
+                // Toast.makeText(requireContext(), "read aloud", Toast.LENGTH_SHORT).show()
 
             },
             MenuItem("About app", R.drawable.ic_launcher_foreground) {
