@@ -2,6 +2,7 @@ package io.github.leonidius20.lugat.di
 
 import android.content.Context
 import androidx.room.Room
+import com.k2fsa.sherpa.onnx.OfflineTts
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,5 +34,13 @@ class MainModule {
     fun provideCrimeanTatarWordsDao(
         database: DictionaryDatabase
     ) = database.crimeanTatarWordsDao()
+
+    // provide lazy tts
+    @Provides
+    @Singleton
+    fun provideTts(): OfflineTts {
+        // lazy<OfflineTTS>
+        TODO()
+    }
 
 }
