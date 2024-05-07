@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.search.SearchView
 import com.k2fsa.sherpa.onnx.TtsActivity
@@ -87,7 +88,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "saved words", Toast.LENGTH_SHORT).show()
             },
             MenuItem("Transliteration tool", R.drawable.ic_launcher_foreground) {
-                Toast.makeText(requireContext(), "transliteration tool", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             },
             MenuItem("Read aloud (text-to-speech)", R.drawable.ic_launcher_foreground) {
                 startActivity(Intent(requireContext(), TtsActivity::class.java))
