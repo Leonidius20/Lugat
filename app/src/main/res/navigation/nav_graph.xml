@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="io.github.leonidius20.lugat.SecondFragment"
+        android:name="io.github.leonidius20.lugat.features.transliteration.TransliterationFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_transliteration">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

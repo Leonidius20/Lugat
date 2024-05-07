@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".features.transliteration.TransliterationFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/large_padding">
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/transliteration_screen_cyrillic"/>
+
+        <Button
+            android:id="@+id/transliteration_generate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sw" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/transliteration_screen_latin"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/transliteration_source_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|start"
+        android:hint="@string/text_hint"
+        android:inputType="textMultiLine"
+        android:padding="@dimen/large_padding"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/transliteration_target_text"
+        android:enabled="false"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|start"
+        android:padding="@dimen/large_padding"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+
+</LinearLayout>

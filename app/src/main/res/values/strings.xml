@@ -59,4 +59,6 @@
     <string name="text_hint">Please input your text here</string>
     <string name="generate">Generate</string>
     <string name="play">Play</string>
+    <string name="transliteration_screen_cyrillic">Cyrillic</string>
+    <string name="transliteration_screen_latin">Latin</string>
 </resources>
