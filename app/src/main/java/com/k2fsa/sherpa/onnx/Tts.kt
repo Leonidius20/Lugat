@@ -48,6 +48,8 @@ class OfflineTts(
 ) {
     private var ptr: Long
 
+    // todo: maybe add a stateflow with states like Uninitialized, Initialized, Generating, Generated
+
     init {
         ptr = if (assetManager != null) {
             newFromAsset(assetManager, config)
