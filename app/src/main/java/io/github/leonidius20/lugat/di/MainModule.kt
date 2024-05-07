@@ -9,6 +9,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.leonidius20.lugat.data.db.DictionaryDatabase
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -42,5 +45,10 @@ class MainModule {
         // lazy<OfflineTTS>
         TODO()
     }
+
+    @Provides
+    @Singleton
+    @Named("cpu_intensive")
+    fun provideCpuIntensiveDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
 }
