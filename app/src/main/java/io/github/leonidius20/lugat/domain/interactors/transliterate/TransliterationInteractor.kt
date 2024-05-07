@@ -25,7 +25,8 @@ class TransliterationInteractor @Inject constructor(
         }
 
         for ((key, value) in map) {
-            input = input.replace(Regex(key), value)
+            val keyWithoutG = key.subSequence(1, key.length - 2).toString() // todo: this is a temporary solution. We should replace all "/regex/g" with "regex"
+            input = input.replace(Regex(keyWithoutG), value)
         }
 
         return@withContext input.trim()
