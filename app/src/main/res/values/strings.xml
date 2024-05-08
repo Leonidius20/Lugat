@@ -63,4 +63,6 @@
     <string name="transliteration_screen_latin">Latin</string>
     <string name="transliteration_screen_change_direction">Change transliteration direction</string>
     <string name="transliteration_screen_clear">Clear</string>
+    <string name="transliteration_screen_copy">Copy</string>
+    <string name="transliteration_screen_paste">Paste</string>
 </resources>

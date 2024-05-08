@@ -60,47 +60,70 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/transliteration_source_text"
-            android:minHeight="300dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top|start"
-            android:hint="@string/text_hint"
-            android:inputType="textMultiLine"
-            android:padding="@dimen/large_padding"
-            style="@style/Widget.Material3.TextInputEditText.FilledBox"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            android:autofillHints="" />
+            <!-- todo: why does edittext take so -->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/transliteration_screen_clear_button"
-            android:text="@string/transliteration_screen_clear"
-            app:icon="@drawable/ic_clear"
-            android:visibility="gone"
-            android:layout_margin="@dimen/large_padding"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/transliteration_source_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="top|start"
+                android:hint="@string/text_hint"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/large_padding"
+                style="@style/Widget.Material3.TextInputEditText.FilledBox"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:autofillHints="" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_gravity="center_horizontal"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/transliteration_screen_clear_button"
+                android:text="@string/transliteration_screen_clear"
+                app:icon="@drawable/ic_clear"
+                android:visibility="gone"
+                android:layout_margin="@dimen/large_padding"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/transliteration_target_text"
-            android:minHeight="300dp"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="16sp"
-            app:autoSizeMaxTextSize="30sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/transliteration_screen_paste_button"
+                android:text="@string/transliteration_screen_paste"
+                app:icon="@drawable/ic_paste"
+                android:visibility="gone"
+                android:layout_margin="@dimen/large_padding"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-            android:gravity="top|start"
-            android:padding="@dimen/large_padding"
-            android:textIsSelectable="true"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/transliteration_target_text"
+                app:autoSizeTextType="none"
+                app:autoSizeMinTextSize="16sp"
+                app:autoSizeMaxTextSize="30sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="top|start"
+                android:padding="@dimen/large_padding"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/transliteration_screen_copy_button"
+                android:text="@string/transliteration_screen_copy"
+                app:icon="@drawable/ic_copy"
+                android:visibility="gone"
+                android:layout_margin="@dimen/large_padding"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
         </LinearLayout>
 
     </ScrollView>

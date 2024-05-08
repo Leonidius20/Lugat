@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -35,6 +36,13 @@ class TransliterationViewModel @Inject constructor(
         initialValue = false
     )
 
+    val isPasteButtonVisible = isClearButtonVisible.map {
+        !it
+    }.stateIn(
+        viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false
+    )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val targetTextFlow = combine(sourceTextFlow, direction) { text, direction ->
@@ -49,6 +57,14 @@ class TransliterationViewModel @Inject constructor(
             initialValue = ""
         )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val isCopyButtonVisible = targetTextFlow.mapLatest {
+        it.isNotEmpty()
+    }.stateIn(
+        viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false
+    )
 
     fun transliterate(text: String) {
         viewModelScope.launch {
