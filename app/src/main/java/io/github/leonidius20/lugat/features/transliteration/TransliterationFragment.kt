@@ -1,5 +1,9 @@
 package io.github.leonidius20.lugat.features.transliteration
 
+import android.content.ClipData
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +22,7 @@ import io.github.leonidius20.lugat.domain.interactors.transliterate.Transliterat
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -58,6 +63,22 @@ class TransliterationFragment : Fragment() {
             binding.transliterationSourceText.setText("")
         }
 
+        val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+
+        binding.transliterationScreenCopyButton.setOnClickListener {
+            val clip = ClipData.newPlainText("Transliterated", viewModel.targetTextFlow.value)
+            clipboard.setPrimaryClip(clip)
+        }
+
+        binding.transliterationScreenPasteButton.setOnClickListener {
+            if (!clipboard.hasPrimaryClip()) return@setOnClickListener
+
+            if (clipboard.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN) == true) {
+                val text = clipboard.primaryClip?.getItemAt(0)?.text
+                binding.transliterationSourceText.setText(text)
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.targetTextFlow.onEach {
@@ -79,6 +100,14 @@ class TransliterationFragment : Fragment() {
 
                 viewModel.isClearButtonVisible.onEach {
                     binding.transliterationScreenClearButton.isVisible = it
+                }.launchIn(this)
+
+                viewModel.isCopyButtonVisible.onEach {
+                    binding.transliterationScreenCopyButton.isVisible = it
+                }.launchIn(this)
+
+                viewModel.isPasteButtonVisible.onEach {
+                    binding.transliterationScreenPasteButton.isVisible = it
                 }.launchIn(this)
             }
         }
