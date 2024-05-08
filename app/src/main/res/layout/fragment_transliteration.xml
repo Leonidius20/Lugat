@@ -28,7 +28,7 @@
             tools:text="@string/transliteration_screen_cyrillic"/>
 
         <ImageButton
-            android:background="#00000000"
+            android:background="?selectableItemBackgroundBorderless"
             android:id="@+id/transliteration_change_direction_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
