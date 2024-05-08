@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -53,6 +54,10 @@ class TransliterationFragment : Fragment() {
             viewModel.toggleDirection()
         }
 
+        binding.transliterationScreenClearButton.setOnClickListener {
+            binding.transliterationSourceText.setText("")
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.targetTextFlow.onEach {
@@ -70,6 +75,10 @@ class TransliterationFragment : Fragment() {
                             binding.targetAlphabetText.setText(R.string.transliteration_screen_cyrillic)
                         }
                     }
+                }.launchIn(this)
+
+                viewModel.isClearButtonVisible.onEach {
+                    binding.transliterationScreenClearButton.isVisible = it
                 }.launchIn(this)
             }
         }

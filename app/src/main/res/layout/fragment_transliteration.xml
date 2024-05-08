@@ -50,8 +50,11 @@
 
     </LinearLayout>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/transliteration_source_text"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="16sp"
+        app:autoSizeMaxTextSize="30sp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -59,17 +62,36 @@
         android:hint="@string/text_hint"
         android:inputType="textMultiLine"
         android:padding="@dimen/large_padding"
+        style="@style/Widget.Material3.TextInputEditText.FilledBox"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:autofillHints="" />
 
-    <EditText
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/transliteration_screen_clear_button"
+        android:text="@string/transliteration_screen_clear"
+        app:icon="@drawable/ic_clear"
+        android:visibility="gone"
+        android:layout_margin="@dimen/large_padding"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_gravity="center_horizontal"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/transliteration_target_text"
-        android:enabled="false"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="16sp"
+        app:autoSizeMaxTextSize="30sp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top|start"
         android:padding="@dimen/large_padding"
+        android:textIsSelectable="true"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
 
