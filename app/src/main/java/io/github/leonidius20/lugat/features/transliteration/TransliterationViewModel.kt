@@ -6,7 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leonidius20.lugat.domain.interactors.transliterate.TransliterationInteractor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.shareIn
@@ -19,23 +21,31 @@ class TransliterationViewModel @Inject constructor(
     private val transliterationInteractor: TransliterationInteractor,
 ) : ViewModel() {
 
-    var direction = TransliterationInteractor.Direction.CYRILLIC_TO_LATIN
+    private val _direction = MutableStateFlow(TransliterationInteractor.Direction.CYRILLIC_TO_LATIN)
+    val direction = _direction.asStateFlow()
 
     private val transliterationRequestFlow = MutableSharedFlow<String>()
 
-    // todo: do not process text immediately, but wait for a delay before processing (read in the reactive programming tutorial, it was there i think)
+
+    // todo combine direction and text flow so that if any of them change we see change
     @OptIn(ExperimentalCoroutinesApi::class)
     val targetTextFlow = transliterationRequestFlow
-        .mapLatest { transliterationInteractor.transliterate(it, direction) }
+        .mapLatest { transliterationInteractor.transliterate(it, direction.value) }
         .stateIn(viewModelScope, started = SharingStarted.WhileSubscribed(5_000), initialValue = "")
 
-    // create a flow of transliteration requests to which we can submit
 
     fun transliterate(text: String) {
         viewModelScope.launch {
             transliterationRequestFlow.emit(text)
         }
-        // return transliterationInteractor.transliterate(text, direction)
+    }
+
+    fun toggleDirection() {
+        _direction.value = if (direction.value == TransliterationInteractor.Direction.CYRILLIC_TO_LATIN) {
+            TransliterationInteractor.Direction.LATIN_TO_CYRILLIC
+        } else {
+            TransliterationInteractor.Direction.CYRILLIC_TO_LATIN
+        }
     }
 
 }

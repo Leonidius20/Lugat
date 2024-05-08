@@ -11,25 +11,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="@dimen/large_padding">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/source_alphabet_text"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="@string/transliteration_screen_cyrillic"/>
+            android:padding="@dimen/large_padding"
+            android:layout_marginEnd="@dimen/large_padding"
+            style="@style/Widget.Material3.Chip.Suggestion.Elevated"
+            app:chipStrokeWidth="0dp"
+            android:clickable="false"
+            android:textAlignment="center"
+            tools:text="@string/transliteration_screen_cyrillic"/>
 
-        <Button
-            android:id="@+id/transliteration_generate_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sw" />
+        <ImageButton
+            android:background="#00000000"
+            android:id="@+id/transliteration_change_direction_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/sync_alt"
+            android:contentDescription="@string/transliteration_screen_change_direction" />
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/target_alphabet_text"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="@string/transliteration_screen_latin"/>
+            android:layout_marginStart="@dimen/large_padding"
+            android:padding="@dimen/large_padding"
+            android:clickable="false"
+            style="@style/Widget.Material3.Chip.Suggestion.Elevated"
+            app:chipStrokeWidth="0dp"
+            android:textAlignment="center"
+            tools:text="@string/transliteration_screen_latin"/>
 
     </LinearLayout>
 
