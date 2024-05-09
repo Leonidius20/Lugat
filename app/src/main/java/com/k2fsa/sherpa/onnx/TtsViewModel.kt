@@ -113,7 +113,10 @@ class TtsViewModel @Inject constructor(
         track.play()
     }
 
-    fun callback(samples: FloatArray) {
+    private fun callback(samples: FloatArray) {
+        if (uiState.value is UiState.Generating) {
+            _uiState.value = UiState.Playing
+        }
         track.write(samples, 0, samples.size, AudioTrack.WRITE_BLOCKING)
     }
 
