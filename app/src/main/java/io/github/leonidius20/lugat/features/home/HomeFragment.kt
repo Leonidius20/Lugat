@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -84,9 +85,9 @@ class HomeFragment : Fragment() {
         }
 
         val menu = listOf(
-            MenuItem("Saved words", R.drawable.ic_launcher_foreground) {
+            /*MenuItem("Saved words", R.drawable.ic_launcher_foreground) {
                 Toast.makeText(requireContext(), "saved words", Toast.LENGTH_SHORT).show()
-            },
+            },*/
             MenuItem("Transliteration tool", R.drawable.ic_launcher_foreground) {
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             },
@@ -96,7 +97,11 @@ class HomeFragment : Fragment() {
 
             },
             MenuItem("About app", R.drawable.ic_launcher_foreground) {
-
+                AlertDialog.Builder(requireContext())
+                    .setTitle("About")
+                    .setMessage("Version ?")
+                    .setPositiveButton(android.R.string.ok) { _, _ -> }
+                    .show()
             }
         )
 

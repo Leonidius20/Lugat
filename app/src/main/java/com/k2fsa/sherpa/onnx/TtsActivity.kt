@@ -12,59 +12,91 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
+import io.github.leonidius20.lugat.databinding.ActivityTtsBinding
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 const val TAG = "sherpa-onnx"
 
+@AndroidEntryPoint
 class TtsActivity : AppCompatActivity() {
-    private lateinit var tts: OfflineTts
-    private lateinit var text: EditText
-    private lateinit var sid: EditText
-    private lateinit var speed: EditText
-    private lateinit var generate: Button
-    private lateinit var play: Button
+    //private lateinit var tts: OfflineTts
+    //private lateinit var text: EditText
+    //private lateinit var sid: EditText
+    //private lateinit var speed: EditText
+    //private lateinit var generate: Button
+    //private lateinit var play: Button
 
     // see
     // https://developer.android.com/reference/kotlin/android/media/AudioTrack
-    private lateinit var track: AudioTrack
+   // private lateinit var track: AudioTrack
+
+    private val viewModel: TtsViewModel by viewModels()
+
+    private lateinit var binding: ActivityTtsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tts)
 
-        Log.i(TAG, "Start to initialize TTS")
+        setContentView(R.layout.loading_screen)
+
+        binding = ActivityTtsBinding.inflate(layoutInflater)
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.uiState.onEach {
+                    when(it) {
+                        TtsViewModel.UiState.Ready -> {
+                            // should only be called once
+                            setContentView(binding.root)
+
+                            binding.generate.setOnClickListener { onClickGenerate() }
+                            binding.play.setOnClickListener { onClickPlay() }
+
+                            binding.sid.setText("0")
+                            binding.speed.setText("1.0")
+
+                            // we will change sampleText here in the CI
+                            val sampleText = ""
+                            binding.text.setText(sampleText)
+
+                            binding.play.isEnabled = false
+                        }
+                        else -> {
+                            // nothing so far
+                        }
+                    }
+                }.launchIn(this)
+
+            }
+        }
+
+
+        /*Log.i(TAG, "Start to initialize TTS")
         initTts()
         Log.i(TAG, "Finish initializing TTS")
 
         Log.i(TAG, "Start to initialize AudioTrack")
         initAudioTrack()
-        Log.i(TAG, "Finish initializing AudioTrack")
+        Log.i(TAG, "Finish initializing AudioTrack")*/
 
-        text = findViewById(R.id.text)
-        sid = findViewById(R.id.sid)
-        speed = findViewById(R.id.speed)
 
-        generate = findViewById(R.id.generate)
-        play = findViewById(R.id.play)
 
-        generate.setOnClickListener { onClickGenerate() }
-        play.setOnClickListener { onClickPlay() }
-
-        sid.setText("0")
-        speed.setText("1.0")
-
-        // we will change sampleText here in the CI
-        val sampleText = ""
-        text.setText(sampleText)
-
-        play.isEnabled = false
     }
 
-    private fun initAudioTrack() {
+    /*private fun initAudioTrack() {
         val sampleRate = tts.sampleRate()
         val bufLength = AudioTrack.getMinBufferSize(
             sampleRate,
@@ -88,15 +120,15 @@ class TtsActivity : AppCompatActivity() {
             AudioManager.AUDIO_SESSION_ID_GENERATE
         )
         track.play()
-    }
+    }*/
 
     // this function is called from C++
-    private fun callback(samples: FloatArray) {
+    /*private fun callback(samples: FloatArray) {
         track.write(samples, 0, samples.size, AudioTrack.WRITE_BLOCKING)
-    }
+    }*/
 
     private fun onClickGenerate() {
-        val sidInt = sid.text.toString().toIntOrNull()
+        val sidInt = binding.sid.text.toString().toIntOrNull()
         if (sidInt == null || sidInt < 0) {
             Toast.makeText(
                 applicationContext,
@@ -106,7 +138,7 @@ class TtsActivity : AppCompatActivity() {
             return
         }
 
-        val speedFloat = speed.text.toString().toFloatOrNull()
+        val speedFloat = binding.speed.text.toString().toFloatOrNull()
         if (speedFloat == null || speedFloat <= 0) {
             Toast.makeText(
                 applicationContext,
@@ -116,32 +148,36 @@ class TtsActivity : AppCompatActivity() {
             return
         }
 
-        val textStr = text.text.toString().trim()
+        val textStr = binding.text.text.toString().trim()
         if (textStr.isBlank() || textStr.isEmpty()) {
             Toast.makeText(applicationContext, "Please input a non-empty text!", Toast.LENGTH_SHORT)
                 .show()
             return
         }
 
-        track.pause()
-        track.flush()
-        track.play()
+        with(viewModel) {
+            track.pause()
+            track.flush()
+            track.play()
+        }
 
-        play.isEnabled = false
+
+
+        binding.play.isEnabled = false
         Thread {
-            val audio = tts.generateWithCallback(
+            val audio = viewModel.tts.generateWithCallback(
                 text = textStr,
                 sid = sidInt,
                 speed = speedFloat,
-                callback = this::callback
+                callback = viewModel::callback
             )
 
             val filename = application.filesDir.absolutePath + "/generated.wav"
             val ok = audio.samples.size > 0 && audio.save(filename)
             if (ok) {
                 runOnUiThread {
-                    play.isEnabled = true
-                    track.stop()
+                    binding.play.isEnabled = true
+                    viewModel.track.stop()
                 }
             }
         }.start()
@@ -156,7 +192,7 @@ class TtsActivity : AppCompatActivity() {
         mediaPlayer.start()
     }
 
-    private fun initTts() {
+    /*private fun initTts() {
         var modelDir: String?
         var modelName: String?
         var ruleFsts: String?
@@ -209,7 +245,7 @@ class TtsActivity : AppCompatActivity() {
         // modelDir = "vits-coqui-de-css10"
         // modelName = "model.onnx"
 
-        if (dataDir != null) {
+        /*if (dataDir != null) {
             val newDir = copyDataDir(modelDir!!)
             modelDir = newDir + "/" + modelDir
             dataDir = newDir + "/" + dataDir
@@ -222,7 +258,7 @@ class TtsActivity : AppCompatActivity() {
             dictDir = modelDir + "/" + "dict"
             ruleFsts = "$modelDir/phone.fst,$modelDir/date.fst,$modelDir/number.fst"
             assets = null
-        }
+        }*/
 
         val config = getOfflineTtsConfig(
             modelDir = modelDir!!,
@@ -235,19 +271,19 @@ class TtsActivity : AppCompatActivity() {
         )!!
 
         tts = OfflineTts(assetManager = assets, config = config)
-    }
+    }*/
 
 
-    private fun copyDataDir(dataDir: String): String {
+    /*private fun copyDataDir(dataDir: String): String {
         Log.i(TAG, "data dir is $dataDir")
         copyAssets(dataDir)
 
         val newDataDir = application.getExternalFilesDir(null)!!.absolutePath
         Log.i(TAG, "newDataDir: $newDataDir")
         return newDataDir
-    }
+    }*/
 
-    private fun copyAssets(path: String) {
+    /*private fun copyAssets(path: String) {
         val assets: Array<String>?
         try {
             assets = application.assets.list(path)
@@ -265,9 +301,9 @@ class TtsActivity : AppCompatActivity() {
         } catch (ex: IOException) {
             Log.e(TAG, "Failed to copy $path. $ex")
         }
-    }
+    }*/
 
-    private fun copyFile(filename: String) {
+    /*private fun copyFile(filename: String) {
         try {
             val istream = application.assets.open(filename)
             val newFilename = application.getExternalFilesDir(null).toString() + "/" + filename
@@ -285,5 +321,5 @@ class TtsActivity : AppCompatActivity() {
         } catch (ex: Exception) {
             Log.e(TAG, "Failed to copy $filename, $ex")
         }
-    }
+    }*/
 }
