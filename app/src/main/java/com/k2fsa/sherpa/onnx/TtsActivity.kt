@@ -74,6 +74,16 @@ class TtsActivity : AppCompatActivity() {
 
                             binding.play.isEnabled = false
                         }
+                        TtsViewModel.UiState.Generating -> {
+                            binding.play.isEnabled = false
+                            binding.generate.isEnabled = false
+                            // todo: show a loading spinner
+                        }
+                        TtsViewModel.UiState.PlaybackFinished -> {
+                            binding.play.isEnabled = true
+                            // todo: only allow generating when text changed
+                            binding.generate.isEnabled = true
+                        }
                         else -> {
                             // nothing so far
                         }
@@ -138,6 +148,7 @@ class TtsActivity : AppCompatActivity() {
             return
         }
 
+        // todo: slider for speed
         val speedFloat = binding.speed.text.toString().toFloatOrNull()
         if (speedFloat == null || speedFloat <= 0) {
             Toast.makeText(
@@ -155,7 +166,9 @@ class TtsActivity : AppCompatActivity() {
             return
         }
 
-        with(viewModel) {
+        viewModel.generate(speedFloat, textStr, application)
+
+        /*with(viewModel) {
             track.pause()
             track.flush()
             track.play()
@@ -180,7 +193,7 @@ class TtsActivity : AppCompatActivity() {
                     viewModel.track.stop()
                 }
             }
-        }.start()
+        }.start()*/
     }
 
     private fun onClickPlay() {
