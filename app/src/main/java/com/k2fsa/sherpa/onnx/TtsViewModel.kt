@@ -1,5 +1,6 @@
 package com.k2fsa.sherpa.onnx
 
+import android.app.Application
 import android.content.res.AssetManager
 import android.media.AudioAttributes
 import android.media.AudioFormat
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -113,6 +115,39 @@ class TtsViewModel @Inject constructor(
 
     fun callback(samples: FloatArray) {
         track.write(samples, 0, samples.size, AudioTrack.WRITE_BLOCKING)
+    }
+
+    fun generate(speed: Float, text: String, application: Application) {
+        _uiState.value = UiState.Generating
+
+        val sid = 0 // speaker id
+
+        track.pause()
+        track.flush()
+        track.play()
+
+        val fileDirPath = application.filesDir.absolutePath
+
+        viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                val audio = tts.generateWithCallback(
+                    text = text,
+                    sid = sid,
+                    speed = speed,
+                    callback = this@TtsViewModel::callback
+                )
+
+                val filename = fileDirPath + "/generated.wav"
+                val ok = audio.samples.size > 0 && audio.save(filename)
+                if (ok) {
+                    withContext(Dispatchers.Main) {
+                        track.stop()
+                        _uiState.value = UiState.PlaybackFinished
+
+                    }
+                }
+            }
+        }
     }
 
 }
