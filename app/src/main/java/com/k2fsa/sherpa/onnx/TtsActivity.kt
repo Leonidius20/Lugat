@@ -79,7 +79,11 @@ class TtsActivity : AppCompatActivity() {
                             binding.generate.isEnabled = false
                             // todo: show a loading spinner
                         }
+                        TtsViewModel.UiState.Playing -> {
+                            // todo: a stop btn? or a play icon at least
+                        }
                         TtsViewModel.UiState.PlaybackFinished -> {
+                            // todo: only have 1 generate/play (READ ALOUD) button with icon
                             binding.play.isEnabled = true
                             // todo: only allow generating when text changed
                             binding.generate.isEnabled = true
