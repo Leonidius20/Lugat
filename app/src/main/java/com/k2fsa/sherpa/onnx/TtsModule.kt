@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -23,5 +24,11 @@ class TtsModule {
     @ViewModelScoped
     fun provideMediaPlayerFactory(@ApplicationContext appContext: Context) =
         MediaPlayerFactory(appContext)
+
+    @Named("internal_dir_path")
+    @Provides
+    @ViewModelScoped
+    fun provideInternalDirPath(@ApplicationContext appContext: Context) =
+        appContext.filesDir.absolutePath
 
 }
