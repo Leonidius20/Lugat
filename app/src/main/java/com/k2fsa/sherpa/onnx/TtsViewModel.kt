@@ -6,6 +6,8 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.media.MediaPlayer
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,11 +17,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class TtsViewModel @Inject constructor(
     private val assetManager: AssetManager,
+    private val mediaPlayerFactory: MediaPlayerFactory,
 ) : ViewModel() {
 
     sealed class UiState {
@@ -151,6 +155,14 @@ class TtsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun playGeneratedAgain() {
+        _uiState.value = UiState.Playing
+
+        val mediaPlayer = mediaPlayerFactory.createForInternalFile("generated.wav")
+        mediaPlayer.setOnCompletionListener { _uiState.value = UiState.PlaybackFinished }
+        mediaPlayer.start()
     }
 
 }
