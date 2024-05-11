@@ -1,7 +1,5 @@
 package com.k2fsa.sherpa.onnx
 
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -16,7 +14,6 @@ import io.github.leonidius20.lugat.databinding.ActivityTtsBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.io.File
 
 const val TAG = "sherpa-onnx"
 
@@ -53,37 +50,37 @@ class TtsActivity : AppCompatActivity() {
                             // should only be called once
                             setContentView(binding.root)
 
-                            binding.generate.setOnClickListener { onClickGenerate() }
-                            binding.play.setOnClickListener { onClickPlay() }
+                            binding.generate.setOnClickListener { onClickGenerateOrPlay() }
+                            // binding.play.setOnClickListener { onClickPlay() }
 
 
                             binding.speed.setText("1.0")
 
                             // we will change sampleText here in the CI
-                            val sampleText = ""
-                            binding.text.setText(sampleText)
+                            //val sampleText = ""
+                            //binding.text.setText(sampleText)
 
-                            binding.play.isEnabled = false
+                            //binding.play.isEnabled = false
                         }
                         TtsViewModel.UiState.Generating -> {
-                            binding.play.isVisible = false
+                            //binding.play.isVisible = false
                             binding.generate.isVisible = false
                             binding.ttsScreenGeneratingProgressBar.isVisible = true
                         }
                         TtsViewModel.UiState.Playing -> {
-                            binding.play.isVisible = false
+                            //binding.play.isVisible = false
                             binding.generate.isVisible = false
                             binding.ttsScreenGeneratingProgressBar.isVisible = false
                             // todo: a stop btn? or a play icon at least
                         }
                         TtsViewModel.UiState.PlaybackFinished -> {
-                            binding.play.isVisible = true
+                            //binding.play.isVisible = true
                             binding.generate.isVisible = true
 
                             // todo: only have 1 generate/play (READ ALOUD) button with icon
-                            binding.play.isEnabled = true
+                            //binding.play.isEnabled = true
                             // todo: only allow generating when text changed
-                            binding.generate.isEnabled = true
+                            //binding.generate.isEnabled = true
                         }
                         else -> {
                             // nothing so far
@@ -138,7 +135,7 @@ class TtsActivity : AppCompatActivity() {
         track.write(samples, 0, samples.size, AudioTrack.WRITE_BLOCKING)
     }*/
 
-    private fun onClickGenerate() {
+    private fun onClickGenerateOrPlay() {
         /*val sidInt = binding.sid.text.toString().toIntOrNull()
         if (sidInt == null || sidInt < 0) {
             Toast.makeText(
@@ -167,7 +164,9 @@ class TtsActivity : AppCompatActivity() {
             return
         }
 
-        viewModel.generate(speedFloat, textStr, application)
+        //viewModel.generate(speedFloat, textStr, application)
+
+        viewModel.readAloud(textStr)
 
         /*with(viewModel) {
             track.pause()
@@ -197,9 +196,9 @@ class TtsActivity : AppCompatActivity() {
         }.start()*/
     }
 
-    private fun onClickPlay() {
+    /*private fun onClickPlay() {
         viewModel.playGeneratedAgain()
-    }
+    }*/
 
 
 

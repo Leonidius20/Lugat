@@ -1,29 +1,30 @@
 package com.k2fsa.sherpa.onnx
 
-import android.app.Application
 import android.content.res.AssetManager
 import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
-import android.media.MediaPlayer
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class TtsViewModel @Inject constructor(
     private val assetManager: AssetManager,
     private val mediaPlayerFactory: MediaPlayerFactory,
+    @Named("internal_dir_path") private val internalDirPath: String,
 ) : ViewModel() {
 
     sealed class UiState {
@@ -44,12 +45,31 @@ class TtsViewModel @Inject constructor(
 
     val uiState = _uiState.asStateFlow()
 
-    lateinit var tts: OfflineTts
+    private lateinit var tts: OfflineTts
 
-    lateinit var track: AudioTrack
+    private lateinit var track: AudioTrack
+
+    private val playRequestFlow = MutableSharedFlow<String>()
+
+    private val previousRequestFlow = playRequestFlow.onSubscription { emit("") } // emit null as the first value
+
+    private val thisAndPreviousRequestFlow = previousRequestFlow.zip(playRequestFlow) {
+        previous, current -> previous to current
+    }
 
     init {
         initialize(assetManager)
+
+        viewModelScope.launch {
+            thisAndPreviousRequestFlow.collect { (prevText, currentText) ->
+                if (prevText != currentText) {
+                    // todo: flow of speed slider, combine with it
+                    generateAndPlay(1.0f, currentText)
+                } else {
+                    playGeneratedAgain()
+                }
+            }
+        }
     }
 
     private fun initialize(assetManager: AssetManager) {
@@ -124,7 +144,7 @@ class TtsViewModel @Inject constructor(
         track.write(samples, 0, samples.size, AudioTrack.WRITE_BLOCKING)
     }
 
-    fun generate(speed: Float, text: String, application: Application) {
+    private fun generateAndPlay(speed: Float, text: String) {
         _uiState.value = UiState.Generating
 
         val sid = 0 // speaker id
@@ -133,7 +153,7 @@ class TtsViewModel @Inject constructor(
         track.flush()
         track.play()
 
-        val fileDirPath = application.filesDir.absolutePath
+        val fileDirPath = internalDirPath
 
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
@@ -157,12 +177,21 @@ class TtsViewModel @Inject constructor(
         }
     }
 
-    fun playGeneratedAgain() {
+    private fun playGeneratedAgain() {
         _uiState.value = UiState.Playing
 
         val mediaPlayer = mediaPlayerFactory.createForInternalFile("generated.wav")
         mediaPlayer.setOnCompletionListener { _uiState.value = UiState.PlaybackFinished }
         mediaPlayer.start()
+    }
+
+    /**
+     * generate and play or play again already generated audio
+     */
+    fun readAloud(text: String) {
+        viewModelScope.launch {
+            playRequestFlow.emit(text)
+        }
     }
 
 }
