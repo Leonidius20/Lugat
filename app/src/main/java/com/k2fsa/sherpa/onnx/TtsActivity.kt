@@ -54,7 +54,7 @@ class TtsActivity : AppCompatActivity() {
                             // binding.play.setOnClickListener { onClickPlay() }
 
 
-                            binding.speed.setText("1.0")
+                            // binding.speed.setText("1.0")
 
                             // we will change sampleText here in the CI
                             //val sampleText = ""
@@ -65,22 +65,27 @@ class TtsActivity : AppCompatActivity() {
                         TtsViewModel.UiState.Generating -> {
                             //binding.play.isVisible = false
                             binding.generate.isVisible = false
+                            binding.ttsScreenPasteButton.isVisible = false
+                            binding.ttsScreenClearButton.isVisible = false
+                            binding.text.isEnabled = false
                             binding.ttsScreenGeneratingProgressBar.isVisible = true
                         }
                         TtsViewModel.UiState.Playing -> {
                             //binding.play.isVisible = false
                             binding.generate.isVisible = false
+                            binding.ttsScreenPasteButton.isVisible = false
+                            binding.ttsScreenClearButton.isVisible = false
+                            binding.text.isEnabled = false
                             binding.ttsScreenGeneratingProgressBar.isVisible = false
                             // todo: a stop btn? or a play icon at least
                         }
                         TtsViewModel.UiState.PlaybackFinished -> {
                             //binding.play.isVisible = true
                             binding.generate.isVisible = true
-
-                            // todo: only have 1 generate/play (READ ALOUD) button with icon
-                            //binding.play.isEnabled = true
-                            // todo: only allow generating when text changed
-                            //binding.generate.isEnabled = true
+                            binding.ttsScreenPasteButton.isVisible = true
+                            binding.ttsScreenClearButton.isVisible = true
+                            binding.text.isEnabled = true
+                            binding.ttsScreenGeneratingProgressBar.isVisible = false
                         }
                         else -> {
                             // nothing so far
@@ -147,7 +152,7 @@ class TtsActivity : AppCompatActivity() {
         }*/
 
         // todo: slider for speed
-        val speedFloat = binding.speed.text.toString().toFloatOrNull()
+        val speedFloat = binding.ttsScreenSpeedSlider.value
         if (speedFloat == null || speedFloat <= 0) {
             Toast.makeText(
                 applicationContext,
@@ -166,7 +171,7 @@ class TtsActivity : AppCompatActivity() {
 
         //viewModel.generate(speedFloat, textStr, application)
 
-        viewModel.readAloud(textStr)
+        viewModel.readAloud(textStr, speedFloat)
 
         /*with(viewModel) {
             track.pause()

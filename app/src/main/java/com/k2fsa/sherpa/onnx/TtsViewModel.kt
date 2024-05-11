@@ -49,9 +49,9 @@ class TtsViewModel @Inject constructor(
 
     private lateinit var track: AudioTrack
 
-    private val playRequestFlow = MutableSharedFlow<String>()
+    private val playRequestFlow = MutableSharedFlow<Pair<String, Float>>()
 
-    private val previousRequestFlow = playRequestFlow.onSubscription { emit("") } // emit null as the first value
+    private val previousRequestFlow = playRequestFlow.onSubscription { emit("" to 1.0F) } // emit null as the first value
 
     private val thisAndPreviousRequestFlow = previousRequestFlow.zip(playRequestFlow) {
         previous, current -> previous to current
@@ -61,10 +61,12 @@ class TtsViewModel @Inject constructor(
         initialize(assetManager)
 
         viewModelScope.launch {
-            thisAndPreviousRequestFlow.collect { (prevText, currentText) ->
-                if (prevText != currentText) {
-                    // todo: flow of speed slider, combine with it
-                    generateAndPlay(1.0f, currentText)
+            thisAndPreviousRequestFlow.collect { (prev, new) ->
+                val (prevText, prevSpeed) = prev
+                val (currentText, currentSpeed) = new
+
+                if (prevText != currentText || prevSpeed != currentSpeed) {
+                    generateAndPlay(currentSpeed, currentText)
                 } else {
                     playGeneratedAgain()
                 }
@@ -188,9 +190,10 @@ class TtsViewModel @Inject constructor(
     /**
      * generate and play or play again already generated audio
      */
-    fun readAloud(text: String) {
+    fun readAloud(text: String, speed: Float) {
         viewModelScope.launch {
-            playRequestFlow.emit(text)
+            playRequestFlow.emit(text to speed)
+            // from 0.5 to 2.0
         }
     }
 
