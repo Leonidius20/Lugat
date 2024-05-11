@@ -31,14 +31,26 @@
         android:id="@+id/speed_label_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_margin="@dimen/large_padding"
         android:text="@string/speed_label"
-        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
+    <com.google.android.material.slider.Slider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tts_screen_speed_slider"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/speed_label_hint"
+        android:valueFrom="0.5"
+        android:valueTo="2.0"
+        android:value="1.0"
+        android:stepSize="0.1"/>
+
+   <!-- <EditText
         android:id="@+id/speed"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -47,25 +59,54 @@
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speed_label_hint" />
+        app:layout_constraintTop_toBottomOf="@id/speed_label_hint" /> -->
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/text"
-        android:inputType="textMultiLine"
-        android:lines="8"
-        android:minLines="10"
+
+
         android:gravity="top|start"
-        android:maxLines="30"
-        android:layout_height="wrap_content"
+
+
+        android:inputType="textMultiLine"
+        android:layout_margin="@dimen/large_padding"
+        android:padding="0dp"
+        style="@style/Widget.Material3.TextInputEditText.FilledBox"
+
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:scrollbars="vertical"
-        android:hint="@string/text_hint"
+        android:hint="@string/tts_text_hint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speed" />
+        app:layout_constraintTop_toBottomOf="@id/tts_screen_speed_slider"
+        app:layout_constraintBottom_toTopOf="@id/generate"/>
+
+    <Button
+        android:id="@+id/tts_screen_paste_button"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:icon="@drawable/ic_paste"
+        android:contentDescription="@string/transliteration_screen_paste" />
+
+    <Button
+        android:id="@+id/tts_screen_clear_button"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:icon="@drawable/ic_clear"
+        android:contentDescription="@string/transliteration_screen_clear" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/generate"
+        android:layout_margin="@dimen/large_padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/large_padding"
@@ -73,7 +114,7 @@
         android:text="@string/tts_screen_read_aloud"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
    <!-- <Button
         android:id="@+id/play"
@@ -93,11 +134,11 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
 
-        android:layout_marginTop="@dimen/large_padding"
+        android:layout_margin="@dimen/large_padding"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@id/text"
+        app:layout_constraintBottom_toBottomOf="parent"
 
         android:visibility="gone"
 

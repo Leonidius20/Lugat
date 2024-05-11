@@ -54,7 +54,7 @@
 
     <string name="sid_label">Speaker ID</string>
     <string name="sid_hint">0</string>
-    <string name="speed_label">Speech speed (large->fast)</string>
+    <string name="speed_label">Speech speed</string>
     <string name="speed_hint">1.0</string>
     <string name="text_hint">Please input your text here</string>
     <string name="generate">Generate</string>
@@ -66,4 +66,5 @@
     <string name="transliteration_screen_copy">Copy</string>
     <string name="transliteration_screen_paste">Paste</string>
     <string name="tts_screen_read_aloud">Read aloud</string>
+    <string name="tts_text_hint">Please input your text here (only in cyrillic!)</string>
 </resources>
