@@ -19,4 +19,9 @@ class TtsModule {
     fun provideAssetManager(@ApplicationContext appContext: Context) =
         appContext.assets
 
+    @Provides
+    @ViewModelScoped
+    fun provideMediaPlayerFactory(@ApplicationContext appContext: Context) =
+        MediaPlayerFactory(appContext)
+
 }

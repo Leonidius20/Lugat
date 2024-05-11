@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.k2fsa.sherpa.onnx.TtsActivity">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/sid_label_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sid_label_hint" />
+        app:layout_constraintTop_toBottomOf="@id/sid_label_hint" />-->
 
     <TextView
         android:id="@+id/speed_label_hint"
@@ -36,7 +36,8 @@
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sid"/>
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <EditText
         android:id="@+id/speed"
         android:layout_width="match_parent"
@@ -84,4 +85,21 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/generate" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/tts_screen_generating_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/text"
+
+        android:visibility="gone"
+
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
