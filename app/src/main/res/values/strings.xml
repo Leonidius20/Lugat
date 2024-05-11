@@ -65,4 +65,5 @@
     <string name="transliteration_screen_clear">Clear</string>
     <string name="transliteration_screen_copy">Copy</string>
     <string name="transliteration_screen_paste">Paste</string>
+    <string name="tts_screen_read_aloud">Read aloud</string>
 </resources>
