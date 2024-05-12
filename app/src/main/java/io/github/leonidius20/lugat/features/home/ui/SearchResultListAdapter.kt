@@ -3,30 +3,26 @@ package io.github.leonidius20.lugat.features.home.ui
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import io.github.leonidius20.lugat.R
+import io.github.leonidius20.lugat.databinding.SearchResultItemBinding
 
 class SearchResultListAdapter(
-    private val dataset: List<WordSearchResultUi>
+    private val dataset: List<WordSearchResultUi>,
+    private val onItemClick: (WordSearchResultUi) -> Unit,
 ): RecyclerView.Adapter<SearchResultListAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(val binding: SearchResultItemBinding) : RecyclerView.ViewHolder(binding.root) {
         // title text view, description text view
 
-        val titleView: TextView = view.findViewById(R.id.search_result_item_title)
-        val descriptionView: TextView = view.findViewById(R.id.search_result_item_description)
-        val languageChip: Chip = view.findViewById(R.id.search_result_language_chip)
+        val titleView = binding.searchResultItemTitle
+        val descriptionView = binding.searchResultItemDescription
+        val languageChip = binding.searchResultLanguageChip
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.search_result_item, parent, false)
-
-        return ViewHolder(view)
+        val binding = SearchResultItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -41,6 +37,10 @@ class SearchResultListAdapter(
         }
 
         holder.languageChip.text = data.language
+
+        holder.binding.root.setOnClickListener {
+            onItemClick(data)
+        }
     }
 
     override fun getItemCount(): Int {
