@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
@@ -24,6 +22,7 @@ import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import io.github.leonidius20.lugat.features.home.ui.MenuAdapter
 import io.github.leonidius20.lugat.features.home.ui.SearchResultListAdapter
+import io.github.leonidius20.lugat.features.home.ui.WordSearchResultUi
 import kotlinx.coroutines.launch
 
 /**
@@ -115,7 +114,7 @@ class HomeFragment : Fragment() {
                 viewModel.uiState.collect {
                     when(it) {
                         is HomeViewModel.UiState.Loaded -> {
-                            val adapter = SearchResultListAdapter(it.data)
+                            val adapter = SearchResultListAdapter(it.data, this@HomeFragment::onOpenWordDetails)
                             binding.searchResultsList.adapter = adapter
                             // do something
                         }
@@ -149,5 +148,11 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    // todo: override back button to close the search view
+    private fun onOpenWordDetails(wordSearchResultUi: WordSearchResultUi) {
+        val action = HomeFragmentDirections.actionHomeFragmentToWordDetailsFragment(
+            wordSearchResultUi.id
+        )
+        findNavController().navigate(action)
+    }
+
 }

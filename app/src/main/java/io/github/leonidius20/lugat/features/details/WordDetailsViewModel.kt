@@ -28,7 +28,8 @@ class WordDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val word = repository.getWordDetails(savedStateHandle.get<Int>("wordId")!!)
+            val wordId = WordDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle).wordId
+            val word = repository.getWordDetails(wordId)
             val wordUi = WordSearchResultUi.fromDomainObject(word)
             _uiState.value = UiState.Loaded(wordUi)
         }
