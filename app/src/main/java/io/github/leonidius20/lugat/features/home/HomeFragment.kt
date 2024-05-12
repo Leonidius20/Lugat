@@ -22,7 +22,7 @@ import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import io.github.leonidius20.lugat.features.home.ui.MenuAdapter
 import io.github.leonidius20.lugat.features.home.ui.SearchResultListAdapter
-import io.github.leonidius20.lugat.features.home.ui.WordSearchResultUi
+import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 import kotlinx.coroutines.launch
 
 /**
@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
         }
 
         // close search view on back button press
-        val backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+        val backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, enabled = false) {
             binding.searchView.hide()
         }
 
