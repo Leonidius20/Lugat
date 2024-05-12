@@ -15,6 +15,8 @@ import androidx.room.TypeConverters
 @TypeConverters(Converters::class)
 abstract class DictionaryDatabase : RoomDatabase() {
 
-    abstract fun crimeanTatarWordsDao(): WordsDao
+    abstract fun wordsDao(): WordsDao
+
+    abstract fun wordDetailsDao(): WordDetailsDao
 
 }
