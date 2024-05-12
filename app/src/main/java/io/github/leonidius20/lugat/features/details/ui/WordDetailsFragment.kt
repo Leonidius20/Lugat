@@ -1,4 +1,4 @@
-package io.github.leonidius20.lugat.features.details
+package io.github.leonidius20.lugat.features.details.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -64,7 +64,32 @@ class WordDetailsFragment : Fragment() {
                     }
                 }.launchIn(this)
 
+
+                viewModel.ttsState.onEach {
+                    when(it) {
+                        WordDetailsViewModel.TtsState.Available -> {
+                            binding.wordDetailsTtsButton.isVisible = true
+                            binding.wordDetailsTtsLoading.isVisible = false
+                        }
+                        WordDetailsViewModel.TtsState.Loading -> {
+                            binding.wordDetailsTtsButton.isVisible = false
+                            binding.wordDetailsTtsLoading.isVisible = true
+                        }
+                        WordDetailsViewModel.TtsState.Playing -> {
+                            binding.wordDetailsTtsButton.isVisible = false
+                            binding.wordDetailsTtsLoading.isVisible = false
+                        }
+                        WordDetailsViewModel.TtsState.Unavailable -> {
+                            binding.wordDetailsTtsButton.isVisible = false
+                            binding.wordDetailsTtsLoading.isVisible = false
+                        }
+                        else -> {}
+                    }
+                }.launchIn(this)
+
                 // todo: how do we listen to sub-states of State.Loaded with tts state being the sub-state? we don't want to reset title and desctiption everu time tts state changes.
+
+                // todo: maybe if tts state is a sub-state of UiState.Loaded, we can create a custom coroutine scope that would be cancelled if the ui state changes, and in this scope we can listen to a sub-state flow?
             }
         }
 

@@ -1,4 +1,4 @@
-package io.github.leonidius20.lugat.features.details
+package io.github.leonidius20.lugat.features.details.di
 
 import dagger.Module
 import dagger.Provides
