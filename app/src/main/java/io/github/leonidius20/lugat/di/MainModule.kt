@@ -36,7 +36,7 @@ class MainModule {
     @Singleton
     fun provideCrimeanTatarWordsDao(
         database: DictionaryDatabase
-    ) = database.crimeanTatarWordsDao()
+    ) = database.wordsDao()
 
     // provide lazy tts
     @Provides
@@ -50,5 +50,10 @@ class MainModule {
     @Singleton
     @Named("cpu_intensive")
     fun provideCpuIntensiveDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @Singleton
+    @Named("io")
+    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
 }
