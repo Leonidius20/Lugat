@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/WordDetailsFragment"
-        android:name="io.github.leonidius20.lugat.features.details.WordDetailsFragment"
+        android:name="io.github.leonidius20.lugat.features.details.ui.WordDetailsFragment"
         tools:layout="@layout/fragment_word_details">
 
 
