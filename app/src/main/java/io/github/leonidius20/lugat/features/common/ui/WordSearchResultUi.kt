@@ -1,4 +1,4 @@
-package io.github.leonidius20.lugat.features.home.ui
+package io.github.leonidius20.lugat.features.common.ui
 
 import io.github.leonidius20.lugat.domain.entities.WordSearchResult
 
@@ -6,7 +6,8 @@ data class WordSearchResultUi(
     val id: Int,
     val title: String,
     val description: String,
-    val language: String,
+    val languageStr: String,
+    val isCrimeanTatar: Boolean,
 ) {
 
     companion object {
@@ -16,13 +17,15 @@ data class WordSearchResultUi(
                     id = wordSearchResult.id,
                     title = "${wordSearchResult.wordLatin} (${wordSearchResult.wordCyrillic})",
                     description = wordSearchResult.translation,
-                    language = "crt",
+                    languageStr = "crt",
+                    isCrimeanTatar = true,
                 )
                 is WordSearchResult.Russian -> WordSearchResultUi(
                     id = wordSearchResult.id,
                     title = wordSearchResult.word,
                     description = wordSearchResult.translation,
-                    language = "rus",
+                    languageStr = "rus",
+                    isCrimeanTatar = false,
                 )
             }
         }

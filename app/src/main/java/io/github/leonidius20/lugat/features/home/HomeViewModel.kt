@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leonidius20.lugat.data.words.WordsSearchRepository
-import io.github.leonidius20.lugat.features.home.ui.WordSearchResultUi
+import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn

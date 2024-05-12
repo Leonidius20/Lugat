@@ -6,6 +6,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -47,11 +48,23 @@ class WordDetailsFragment : Fragment() {
                             } else {
                                 Html.fromHtml(it.data.description)
                             }
-                            // todo: if chrt, show tts icon
+
+                            if (it.data.isCrimeanTatar) {
+                                // set on click
+                                binding.wordDetailsTtsButton.setOnClickListener {
+                                    // todo: add a separate state flow for the state of tts player
+                                    binding.wordDetailsTtsButton.isVisible = false
+                                    binding.wordDetailsTtsLoading.isVisible = true
+                                }
+                            } else {
+                                binding.wordDetailsTtsButton.visibility = View.GONE
+                            }
                         }
                         else -> {}
                     }
                 }.launchIn(this)
+
+                // todo: how do we listen to sub-states of State.Loaded with tts state being the sub-state? we don't want to reset title and desctiption everu time tts state changes.
             }
         }
 

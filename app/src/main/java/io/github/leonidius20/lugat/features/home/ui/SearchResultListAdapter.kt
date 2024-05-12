@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.leonidius20.lugat.databinding.SearchResultItemBinding
+import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 
 class SearchResultListAdapter(
     private val dataset: List<WordSearchResultUi>,
@@ -36,7 +37,7 @@ class SearchResultListAdapter(
             Html.fromHtml(data.description)
         }
 
-        holder.languageChip.text = data.language
+        holder.languageChip.text = data.languageStr
 
         holder.binding.root.setOnClickListener {
             onItemClick(data)
