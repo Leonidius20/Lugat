@@ -2,9 +2,24 @@ package io.github.leonidius20.lugat
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
+import io.github.leonidius20.lugat.data.tts.TtsService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import javax.inject.Inject
 
 @HiltAndroidApp
-class LugatApp: Application()
+class LugatApp: Application() {
+
+    val applicationScope = CoroutineScope(SupervisorJob())
+
+    @Inject lateinit var ttsService: TtsService
+
+    override fun onCreate() {
+        super.onCreate()
+        ttsService.initialize()
+    }
+
+}
 
 /**
  * Here's the scope of an MVP:
