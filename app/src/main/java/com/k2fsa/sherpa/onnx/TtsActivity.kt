@@ -50,6 +50,13 @@ class TtsActivity : AppCompatActivity() {
 
                             binding.ttsScreenClearButton.setOnClickListener { onClearButton() }
                             binding.ttsScreenPasteButton.setOnClickListener { onPasteButton() }
+
+                            // todo: figure out a way to have sub-states so that we don't have to call setContentView each timeplayback is finished
+                            binding.generate.isVisible = true
+                            binding.ttsScreenPasteButton.isVisible = true
+                            binding.ttsScreenClearButton.isVisible = true
+                            binding.text.isEnabled = true
+                            binding.ttsScreenGeneratingProgressBar.isVisible = false
                         }
                         TtsViewModel.UiState.Generating -> {
                             binding.generate.isVisible = false
@@ -66,13 +73,13 @@ class TtsActivity : AppCompatActivity() {
                             binding.ttsScreenGeneratingProgressBar.isVisible = false
                             // todo: a stop btn? or a play icon at least
                         }
-                        TtsViewModel.UiState.PlaybackFinished -> {
+                        /*TtsViewModel.UiState.PlaybackFinished -> {
                             binding.generate.isVisible = true
                             binding.ttsScreenPasteButton.isVisible = true
                             binding.ttsScreenClearButton.isVisible = true
                             binding.text.isEnabled = true
                             binding.ttsScreenGeneratingProgressBar.isVisible = false
-                        }
+                        }*/
                         else -> {
                             // nothing so far
                         }
