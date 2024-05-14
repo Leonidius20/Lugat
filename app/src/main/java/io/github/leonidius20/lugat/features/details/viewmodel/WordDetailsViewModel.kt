@@ -11,6 +11,7 @@ import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 import io.github.leonidius20.lugat.features.details.ui.WordDetailsFragmentArgs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,13 +52,26 @@ class WordDetailsViewModel @Inject constructor(
     private lateinit var word: WordSearchResult
 
     init {
-        with (ttsService) { viewModelScope.bind() }
+        with(ttsService) { viewModelScope.bind() }
+
         viewModelScope.launch {
             val wordId = WordDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle).wordId
             word = repository.getWordDetails(wordId)
             val wordUi = WordSearchResultUi.fromDomainObject(word)
             _uiState.value = UiState.Loaded(wordUi)
-            _ttsState.value = if (wordUi.isCrimeanTatar) TtsState.Available else TtsState.Unavailable
+            _ttsState.value =
+                if (wordUi.isCrimeanTatar) TtsState.Available else TtsState.Unavailable
+
+            if (wordUi.isCrimeanTatar) {
+                ttsService.state.collect {
+                    if (it == TtsService.State.PLAYING) {
+                        _ttsState.value = TtsState.Playing
+                    } else if (it == TtsService.State.READY) {
+                        _ttsState.value = TtsState.Available
+                    }
+                }
+
+            }
         }
     }
 
@@ -66,15 +80,13 @@ class WordDetailsViewModel @Inject constructor(
             throw IllegalStateException("Word details have not been loaded yet or tts is not available for this word (it is not crimean tatar)")
         }
 
-
         val cyrillic = (word as? WordSearchResult.CrimeanTatar)?.wordCyrillic ?: throw IllegalStateException("not a crimean tatar word")
+
+        _ttsState.value = TtsState.Loading
         viewModelScope.launch {
             ttsService.readAloud(cyrillic, 1.0f)
         }
-
-
-        // todo get word in cyrillic by id? create interactor? or save the domain word object in the viewmodel? and use that to request  tts
-        _ttsState.value = TtsState.Loading
     }
+
 
 }

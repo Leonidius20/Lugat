@@ -67,4 +67,6 @@
     <string name="transliteration_screen_paste">Paste</string>
     <string name="tts_screen_read_aloud">Read aloud</string>
     <string name="tts_text_hint">Please input your text here (only in cyrillic!)</string>
+    <string name="github_repo_link" translatable="false">https://github.com/Leonidius20/Lugat</string>
+    <string name="main_menu_item_transliteration">Transliteration tool</string>
 </resources>

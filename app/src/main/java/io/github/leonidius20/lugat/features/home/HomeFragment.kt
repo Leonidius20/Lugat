@@ -1,13 +1,17 @@
 package io.github.leonidius20.lugat.features.home
 
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.search.SearchView
 import io.github.leonidius20.lugat.features.tts.ui.TtsActivity
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.leonidius20.lugat.BuildConfig
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import io.github.leonidius20.lugat.features.home.ui.MenuAdapter
@@ -40,6 +45,8 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeViewModel>()
 
     data class MenuItem(val title: String, @DrawableRes val icon: Int, val action: () -> Unit)
+
+    private lateinit var backPressedCallback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +76,7 @@ class HomeFragment : Fragment() {
         }
 
         // close search view on back button press
-        val backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, enabled = false) {
+        backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, enabled = false) {
             binding.searchView.hide()
         }
 
@@ -87,20 +94,25 @@ class HomeFragment : Fragment() {
             /*MenuItem("Saved words", R.drawable.ic_launcher_foreground) {
                 Toast.makeText(requireContext(), "saved words", Toast.LENGTH_SHORT).show()
             },*/
-            MenuItem("Transliteration tool", R.drawable.ic_launcher_foreground) {
+            MenuItem(getString(R.string.main_menu_item_transliteration), R.drawable.ic_transliterate) {
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             },
-            MenuItem("Read aloud (text-to-speech)", R.drawable.ic_launcher_foreground) {
+            MenuItem("Read aloud (text-to-speech)", R.drawable.ic_read_aloud) {
                 startActivity(Intent(requireContext(), TtsActivity::class.java))
                 // Toast.makeText(requireContext(), "read aloud", Toast.LENGTH_SHORT).show()
 
             },
-            MenuItem("About app", R.drawable.ic_launcher_foreground) {
+            MenuItem("About app", R.drawable.ic_about_app) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("About")
-                    .setMessage("Version ?")
+                    .setMessage("Version ${BuildConfig.VERSION_NAME}\nCPU architecture: ${System.getProperty("os.arch")}\nThe software is provided as-is free of charge without any guarantees.")
+                    // todo: add a slide-out with "Licenses", "Terms and conditions", "Source code", "App version", "Info about device (cpu abi)"
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
                     .show()
+            },
+            MenuItem("Source code (Github)", R.drawable.ic_link) {
+                val intent = Intent(Intent.ACTION_VIEW, getString(R.string.github_repo_link).toUri())
+                startActivity(intent)
             }
         )
 

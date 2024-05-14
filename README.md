@@ -3,3 +3,6 @@ This is a Crimean Tatar-Russian dictionary with TTS (Text-to-Speech) support. It
 
 ## Technologies
 This project uses ViewBinding, RecyclerView, Room, Dagger/Hilt, Android Architecture Components (ViewModel, Navigation), Facebook's TTS, and Material Design components.
+
+## Screenshots
+![Combined screenshots](/docs/screenshots/combined.png)
