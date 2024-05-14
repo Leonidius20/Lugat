@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.k2fsa.sherpa.onnx.TtsActivity" />
+        <activity android:name=".features.tts.ui.TtsActivity" />
     </application>
 
 </manifest>

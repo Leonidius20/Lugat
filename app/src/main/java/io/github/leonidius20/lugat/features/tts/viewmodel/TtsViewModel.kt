@@ -1,4 +1,4 @@
-package com.k2fsa.sherpa.onnx
+package io.github.leonidius20.lugat.features.tts.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

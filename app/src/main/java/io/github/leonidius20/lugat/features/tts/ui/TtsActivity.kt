@@ -1,4 +1,4 @@
-package com.k2fsa.sherpa.onnx
+package io.github.leonidius20.lugat.features.tts.ui
 
 import android.content.ClipDescription
 import android.content.ClipboardManager
@@ -13,11 +13,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.ActivityTtsBinding
+import io.github.leonidius20.lugat.features.tts.viewmodel.TtsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-const val TAG = "sherpa-onnx"
+// todo: make into a fragment
 
 @AndroidEntryPoint
 class TtsActivity : AppCompatActivity() {

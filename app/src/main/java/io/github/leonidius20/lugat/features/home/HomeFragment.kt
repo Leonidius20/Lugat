@@ -16,7 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.search.SearchView
-import com.k2fsa.sherpa.onnx.TtsActivity
+import io.github.leonidius20.lugat.features.tts.ui.TtsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
