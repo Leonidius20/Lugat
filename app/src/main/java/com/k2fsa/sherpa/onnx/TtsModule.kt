@@ -15,20 +15,8 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 class TtsModule {
 
-    @Provides
-    @ViewModelScoped
-    fun provideAssetManager(@ApplicationContext appContext: Context) =
-        appContext.assets
 
-    @Provides
-    @ViewModelScoped
-    fun provideMediaPlayerFactory(@ApplicationContext appContext: Context) =
-        MediaPlayerFactory(appContext)
 
-    @Named("internal_dir_path")
-    @Provides
-    @ViewModelScoped
-    fun provideInternalDirPath(@ApplicationContext appContext: Context) =
-        appContext.filesDir.absolutePath
+
 
 }

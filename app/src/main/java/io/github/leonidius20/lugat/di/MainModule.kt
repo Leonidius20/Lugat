@@ -2,12 +2,15 @@ package io.github.leonidius20.lugat.di
 
 import android.content.Context
 import androidx.room.Room
+import com.k2fsa.sherpa.onnx.MediaPlayerFactory
 import com.k2fsa.sherpa.onnx.OfflineTts
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
+import io.github.leonidius20.lugat.LugatApp
 import io.github.leonidius20.lugat.data.db.DictionaryDatabase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -55,5 +58,33 @@ class MainModule {
     @Singleton
     @Named("io")
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Singleton
+    @Named("main")
+    fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+    @Provides
+    @Singleton
+    @Named("app_scope")
+    fun provideAppScope(
+        @ApplicationContext context: Context
+    ) = (context.applicationContext as LugatApp).applicationScope
+
+    @Named("internal_dir_path")
+    @Provides
+    @Singleton
+    fun provideInternalDirPath(@ApplicationContext appContext: Context) =
+        appContext.filesDir.absolutePath
+
+    @Provides
+    @Singleton
+    fun provideAssetManager(@ApplicationContext appContext: Context) =
+        appContext.assets
+
+    @Provides
+    @Singleton
+    fun provideMediaPlayerFactory(@ApplicationContext appContext: Context) =
+        MediaPlayerFactory(appContext)
 
 }
