@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
             tools:text="qaveeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             android:id="@+id/word_details_word"
             app:layout_constraintRight_toLeftOf="@id/word_details_tts_button_and_loading_spinner"
