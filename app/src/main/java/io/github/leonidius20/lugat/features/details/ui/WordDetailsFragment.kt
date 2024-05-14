@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.databinding.FragmentWordDetailsBinding
+import io.github.leonidius20.lugat.features.details.viewmodel.WordDetailsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -55,6 +56,7 @@ class WordDetailsFragment : Fragment() {
                                     // todo: add a separate state flow for the state of tts player
                                     binding.wordDetailsTtsButton.isVisible = false
                                     binding.wordDetailsTtsLoading.isVisible = true
+                                    viewModel.playTts()
                                 }
                             } else {
                                 binding.wordDetailsTtsButton.visibility = View.GONE
