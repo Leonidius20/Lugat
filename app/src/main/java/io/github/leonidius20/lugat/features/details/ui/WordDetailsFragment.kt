@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.databinding.FragmentWordDetailsBinding
 import io.github.leonidius20.lugat.features.details.viewmodel.WordDetailsViewModel
@@ -38,12 +39,16 @@ class WordDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.detailsScreenToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.onEach {
                     when(it) {
                         is WordDetailsViewModel.UiState.Loaded -> {
-                            binding.wordDetailsWord.text = it.data.title
+                            binding.detailsScreenToolbar.title = it.data.title
                             binding.wordDetailsDescription.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 Html.fromHtml(it.data.description, Html.FROM_HTML_MODE_COMPACT)
                             } else {
@@ -53,10 +58,6 @@ class WordDetailsFragment : Fragment() {
                             if (it.data.isCrimeanTatar) {
                                 // set on click
                                 binding.detailsScreenTtsFab.setOnClickListener {
-
-                                    binding.detailsScreenTtsFab.hide()
-                                    // todo: loading
-                                    // binding.wordDetailsTtsLoading.isVisible = true
                                     viewModel.playTts()
                                 }
                             } else {
@@ -71,16 +72,26 @@ class WordDetailsFragment : Fragment() {
                 viewModel.ttsState.onEach {
                     when(it) {
                         WordDetailsViewModel.TtsState.Available -> {
-                            //.wordDetailsTtsButton.isVisible = true
+                            binding.detailsScreenTtsFab.isVisible = true
                             //binding.wordDetailsTtsLoading.isVisible = false
-                            binding.detailsScreenTtsFab.show()
+                           //  binding.detailsScreenTtsFab.show()
+
+                            binding.detailsScreenTtsFab.apply {
+                                extend()
+                                isEnabled = true
+                            }
                         }
                         WordDetailsViewModel.TtsState.Loading -> {
-                            binding.detailsScreenTtsFab.hide()
+                            binding.detailsScreenTtsFab.apply {
+                                shrink()
+                                isEnabled = false
+                            }
+                            // binding.detailsScreenTtsFab.hide()
                             //binding.wordDetailsTtsButton.isVisible = false
                             //binding.wordDetailsTtsLoading.isVisible = true
                         }
                         WordDetailsViewModel.TtsState.Playing -> {
+                            // todo show btn but disabled
                             //binding.wordDetailsTtsButton.isVisible = false
                             //binding.wordDetailsTtsLoading.isVisible = false
                         }

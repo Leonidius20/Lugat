@@ -6,6 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            style="?attr/collapsingToolbarLayoutLargeStyle"
+            android:layout_width="match_parent"
+            app:maxLines="5"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+
+            android:layout_height="?attr/collapsingToolbarLayoutLargeSize">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/details_screen_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:minHeight="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_back"
+                tools:title="qaveeeeeeeeeeeeeeeeeeeeeeeeee eeeeeeeeeeeeeee"
+                android:elevation="0dp" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/details_screen_tts_fab"
         android:layout_width="wrap_content"
@@ -17,7 +44,7 @@
         app:icon="@drawable/ic_read_aloud"/>
 
     <androidx.core.widget.NestedScrollView
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -29,23 +56,11 @@
             android:padding="@dimen/large_padding">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                tools:text="qaveeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-                android:id="@+id/word_details_word"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginEnd="@dimen/large_padding"
-                android:textIsSelectable="true"
-                />
-
-            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 tools:text="kava is a drink"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                app:layout_constraintTop_toBottomOf="@id/word_details_word"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textIsSelectable="true"
                 android:id="@+id/word_details_description"/>
