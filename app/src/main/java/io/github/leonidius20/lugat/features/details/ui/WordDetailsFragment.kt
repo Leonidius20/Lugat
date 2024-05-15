@@ -86,12 +86,14 @@ class WordDetailsFragment : Fragment() {
                                 shrink()
                                 isEnabled = false
                             }
+
+                            binding.wordDetailsProgressBar.visibility = View.VISIBLE
                             // binding.detailsScreenTtsFab.hide()
                             //binding.wordDetailsTtsButton.isVisible = false
                             //binding.wordDetailsTtsLoading.isVisible = true
                         }
                         WordDetailsViewModel.TtsState.Playing -> {
-                            // todo show btn but disabled
+                            binding.wordDetailsProgressBar.visibility = View.GONE
                             //binding.wordDetailsTtsButton.isVisible = false
                             //binding.wordDetailsTtsLoading.isVisible = false
                         }
