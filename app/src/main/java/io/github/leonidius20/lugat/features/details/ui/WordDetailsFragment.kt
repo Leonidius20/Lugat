@@ -52,14 +52,15 @@ class WordDetailsFragment : Fragment() {
 
                             if (it.data.isCrimeanTatar) {
                                 // set on click
-                                binding.wordDetailsTtsButton.setOnClickListener {
-                                    // todo: add a separate state flow for the state of tts player
-                                    binding.wordDetailsTtsButton.isVisible = false
-                                    binding.wordDetailsTtsLoading.isVisible = true
+                                binding.detailsScreenTtsFab.setOnClickListener {
+
+                                    binding.detailsScreenTtsFab.hide()
+                                    // todo: loading
+                                    // binding.wordDetailsTtsLoading.isVisible = true
                                     viewModel.playTts()
                                 }
                             } else {
-                                binding.wordDetailsTtsButton.visibility = View.GONE
+                                binding.detailsScreenTtsFab.visibility = View.GONE
                             }
                         }
                         else -> {}
@@ -70,20 +71,22 @@ class WordDetailsFragment : Fragment() {
                 viewModel.ttsState.onEach {
                     when(it) {
                         WordDetailsViewModel.TtsState.Available -> {
-                            binding.wordDetailsTtsButton.isVisible = true
-                            binding.wordDetailsTtsLoading.isVisible = false
+                            //.wordDetailsTtsButton.isVisible = true
+                            //binding.wordDetailsTtsLoading.isVisible = false
+                            binding.detailsScreenTtsFab.show()
                         }
                         WordDetailsViewModel.TtsState.Loading -> {
-                            binding.wordDetailsTtsButton.isVisible = false
-                            binding.wordDetailsTtsLoading.isVisible = true
+                            binding.detailsScreenTtsFab.hide()
+                            //binding.wordDetailsTtsButton.isVisible = false
+                            //binding.wordDetailsTtsLoading.isVisible = true
                         }
                         WordDetailsViewModel.TtsState.Playing -> {
-                            binding.wordDetailsTtsButton.isVisible = false
-                            binding.wordDetailsTtsLoading.isVisible = false
+                            //binding.wordDetailsTtsButton.isVisible = false
+                            //binding.wordDetailsTtsLoading.isVisible = false
                         }
                         WordDetailsViewModel.TtsState.Unavailable -> {
-                            binding.wordDetailsTtsButton.isVisible = false
-                            binding.wordDetailsTtsLoading.isVisible = false
+                            binding.detailsScreenTtsFab.isVisible = false
+                           // binding.wordDetailsTtsLoading.isVisible = false
                         }
                         else -> {}
                     }
