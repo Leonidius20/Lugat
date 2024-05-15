@@ -2,50 +2,61 @@ package io.github.leonidius20.lugat.features.tts.ui
 
 import android.content.ClipDescription
 import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.ActivityTtsBinding
 import io.github.leonidius20.lugat.features.tts.viewmodel.TtsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-// todo: make into a fragment
-
 @AndroidEntryPoint
-class TtsActivity : AppCompatActivity() {
+class TtsFragment : Fragment() {
 
     private val viewModel: TtsViewModel by viewModels()
 
-    private lateinit var binding: ActivityTtsBinding
+    private var _binding: ActivityTtsBinding? = null
+
+    private val binding get() = _binding!!
 
     private lateinit var clipboard: ClipboardManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = ActivityTtsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        setContentView(R.layout.loading_screen)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
-        binding = ActivityTtsBinding.inflate(layoutInflater)
-
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.uiState.onEach {
                     when(it) {
                         TtsViewModel.UiState.Ready -> {
                             // should only be called once
-                            setContentView(binding.root)
+                            binding.loadingScreen.root.visibility = View.GONE
+                            binding.ttsScreenLayout.visibility = View.VISIBLE
+
 
                             binding.generate.setOnClickListener { onClickGenerateOrPlay() }
 
@@ -90,6 +101,9 @@ class TtsActivity : AppCompatActivity() {
             }
         }
 
+        binding.ttsScreenToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun onClickGenerateOrPlay() {
@@ -97,7 +111,7 @@ class TtsActivity : AppCompatActivity() {
         val speedFloat = binding.ttsScreenSpeedSlider.value
         if (speedFloat <= 0) {
             Toast.makeText(
-                applicationContext,
+                context,
                 "Please input a positive number for speech speed!",
                 Toast.LENGTH_SHORT
             ).show()
@@ -106,7 +120,7 @@ class TtsActivity : AppCompatActivity() {
 
         val textStr = binding.text.text.toString().trim()
         if (textStr.isBlank() || textStr.isEmpty()) {
-            Toast.makeText(applicationContext, "Please input a non-empty text!", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Please input a non-empty text!", Toast.LENGTH_SHORT)
                 .show()
             return
         }
@@ -126,5 +140,11 @@ class TtsActivity : AppCompatActivity() {
     private fun onClearButton() {
         binding.text.setText("")
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
 

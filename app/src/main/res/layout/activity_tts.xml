@@ -1,167 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".features.tts.ui.TtsActivity">
+    android:layout_height="match_parent">
 
-    <!--<TextView
-        android:id="@+id/sid_label_hint"
+    <include
+        layout="@layout/loading_screen"
+        android:id="@+id/loading_screen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sid_label"
-        android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
         />
-    <EditText
-        android:id="@+id/sid"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="0dp"
-        android:hint="@string/sid_hint"
-        android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sid_label_hint" />-->
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/tts_screen_app_bar_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:fitsSystemWindows="true"
-        >
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/tts_screen_layout"
+        tools:context=".features.tts.ui.TtsFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+        <!--<TextView
+            android:id="@+id/sid_label_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:title="@string/tts_screen_read_aloud"
-            app:navigationIcon="@drawable/ic_back" />
+            android:text="@string/sid_label"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <EditText
+            android:id="@+id/sid"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="0dp"
+            android:hint="@string/sid_hint"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sid_label_hint" />-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/tts_screen_app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:fitsSystemWindows="true"
+            >
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tts_screen_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:title="@string/tts_screen_read_aloud"
+                app:navigationIcon="@drawable/ic_back" />
 
-    <TextView
-        android:id="@+id/speed_label_hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/large_padding"
-        android:text="@string/speed_label"
-        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tts_screen_app_bar_layout"/>
-
-    <com.google.android.material.slider.Slider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tts_screen_speed_slider"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speed_label_hint"
-        android:valueFrom="0.5"
-        android:valueTo="2.0"
-        android:value="1.0"
-        android:stepSize="0.1"/>
-
-   <!-- <EditText
-        android:id="@+id/speed"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="0dp"
-        android:hint="@string/speed_hint"
-        android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speed_label_hint" /> -->
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/text"
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-        android:gravity="top|start"
+        <TextView
+            android:id="@+id/speed_label_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_padding"
+            android:text="@string/speed_label"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tts_screen_app_bar_layout"/>
+
+        <com.google.android.material.slider.Slider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tts_screen_speed_slider"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/speed_label_hint"
+            android:valueFrom="0.5"
+            android:valueTo="2.0"
+            android:value="1.0"
+            android:stepSize="0.1"/>
+
+        <!-- <EditText
+             android:id="@+id/speed"
+             android:layout_width="match_parent"
+             android:layout_height="60dp"
+             android:layout_marginTop="0dp"
+             android:hint="@string/speed_hint"
+             android:gravity="center"
+             app:layout_constraintLeft_toLeftOf="parent"
+             app:layout_constraintRight_toRightOf="parent"
+             app:layout_constraintTop_toBottomOf="@id/speed_label_hint" /> -->
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/text"
 
 
-        android:inputType="textMultiLine"
-        android:layout_margin="@dimen/large_padding"
-        android:padding="0dp"
-        style="@style/Widget.Material3.TextInputEditText.FilledBox"
-
-        android:layout_height="0dp"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:hint="@string/tts_text_hint"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tts_screen_speed_slider"
-        app:layout_constraintBottom_toTopOf="@id/generate"/>
-
-    <Button
-        android:id="@+id/tts_screen_paste_button"
-        style="?attr/materialIconButtonFilledStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/large_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:icon="@drawable/ic_paste"
-        android:contentDescription="@string/transliteration_screen_paste" />
-
-    <Button
-        android:id="@+id/tts_screen_clear_button"
-        style="?attr/materialIconButtonFilledStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/large_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:icon="@drawable/ic_clear"
-        android:contentDescription="@string/transliteration_screen_clear" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/generate"
-        android:layout_margin="@dimen/large_padding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/large_padding"
-        app:icon="@drawable/ic_read_aloud"
-        android:text="@string/tts_screen_read_aloud"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-   <!-- <Button
-        android:id="@+id/play"
-        android:textAllCaps="false"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/play"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/generate" /> -->
+            android:gravity="top|start"
 
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/tts_screen_generating_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
+            android:inputType="textMultiLine"
+            android:layout_margin="@dimen/large_padding"
+            android:padding="0dp"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
 
-        android:layout_margin="@dimen/large_padding"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:hint="@string/tts_text_hint"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tts_screen_speed_slider"
+            app:layout_constraintBottom_toTopOf="@id/generate"/>
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        <Button
+            android:id="@+id/tts_screen_paste_button"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:icon="@drawable/ic_paste"
+            android:contentDescription="@string/transliteration_screen_paste" />
 
-        android:visibility="gone"
+        <Button
+            android:id="@+id/tts_screen_clear_button"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:icon="@drawable/ic_clear"
+            android:contentDescription="@string/transliteration_screen_clear" />
 
-        />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/generate"
+            android:layout_margin="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            app:icon="@drawable/ic_read_aloud"
+            android:text="@string/tts_screen_read_aloud"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- <Button
+             android:id="@+id/play"
+             android:textAllCaps="false"
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:layout_marginTop="4dp"
+             android:text="@string/play"
+             app:layout_constraintLeft_toLeftOf="parent"
+             app:layout_constraintRight_toRightOf="parent"
+             app:layout_constraintTop_toBottomOf="@id/generate" /> -->
+
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/tts_screen_generating_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+
+            android:layout_margin="@dimen/large_padding"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:visibility="gone"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
+

@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentTransliterationBinding
@@ -112,11 +113,11 @@ class TransliterationFragment : Fragment() {
             }
         }
 
-        // todo: back button?
 
-        //binding.buttonSecond.setOnClickListener {
-        //    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        //}
+        binding.transliterationScreenTopAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
     }
 
     override fun onDestroyView() {

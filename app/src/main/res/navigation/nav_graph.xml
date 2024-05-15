@@ -19,6 +19,10 @@
             android:id="@+id/action_HomeFragment_to_WordDetailsFragment"
 
             app:destination="@id/WordDetailsFragment" />
+
+        <action
+            android:id="@+id/action_HomeFragment_to_TtsFragment"
+            app:destination="@id/TtsFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -41,4 +45,10 @@
             android:name="word_id"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/TtsFragment"
+        android:name="io.github.leonidius20.lugat.features.tts.ui.TtsFragment"
+        tools:layout="@layout/activity_tts"/>
+
 </navigation>
