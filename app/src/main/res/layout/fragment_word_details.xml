@@ -1,73 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
-    tools:context=".features.details.ui.WordDetailsFragment">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/details_screen_tts_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/tts_screen_read_aloud"
+        android:text="@string/tts_screen_read_aloud"
+        app:icon="@drawable/ic_read_aloud"/>
+
+    <androidx.core.widget.NestedScrollView
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/large_padding">
+        android:fillViewport="true"
+        tools:context=".features.details.ui.WordDetailsFragment">
 
-        <TextView
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-            tools:text="qaveeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-            android:id="@+id/word_details_word"
-            app:layout_constraintRight_toLeftOf="@id/word_details_tts_button_and_loading_spinner"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginEnd="@dimen/large_padding"
-            android:textIsSelectable="true"
-            />
+            android:padding="@dimen/large_padding">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="kava is a drink"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            app:layout_constraintTop_toBottomOf="@id/word_details_word"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:textIsSelectable="true"
-            android:id="@+id/word_details_description"/>
-
-        <FrameLayout
-            android:id="@+id/word_details_tts_button_and_loading_spinner"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
-
-           <ImageButton
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/word_details_tts_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_read_aloud"
-                android:contentDescription="@string/tts_screen_read_aloud"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                tools:text="qaveeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+                android:id="@+id/word_details_word"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginEnd="@dimen/large_padding"
+                android:textIsSelectable="true"
                 />
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/word_details_tts_loading"
-                android:indeterminate="true"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:visibility="gone"
-                />
-
-        </FrameLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="kava is a drink"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                app:layout_constraintTop_toBottomOf="@id/word_details_word"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textIsSelectable="true"
+                android:id="@+id/word_details_description"/>
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
