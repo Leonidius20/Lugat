@@ -1,8 +1,6 @@
 package io.github.leonidius20.lugat.features.home
 
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.search.SearchView
-import io.github.leonidius20.lugat.features.tts.ui.TtsActivity
+import io.github.leonidius20.lugat.features.tts.ui.TtsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.BuildConfig
 import io.github.leonidius20.lugat.R
@@ -98,9 +96,7 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             },
             MenuItem("Read aloud (text-to-speech)", R.drawable.ic_read_aloud) {
-                startActivity(Intent(requireContext(), TtsActivity::class.java))
-                // Toast.makeText(requireContext(), "read aloud", Toast.LENGTH_SHORT).show()
-
+                findNavController().navigate(R.id.action_HomeFragment_to_TtsFragment)
             },
             MenuItem("About app", R.drawable.ic_about_app) {
                 AlertDialog.Builder(requireContext())
