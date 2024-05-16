@@ -28,6 +28,8 @@ android {
 
     signingConfigs {
         create("with-production-signature") {
+            storeFile = keystoreFile
+
             val secretPropertiesFile = project.rootProject.file("secrets.properties")
             if (!secretPropertiesFile.exists()) {
                 // we are on github actions, get from env variables
