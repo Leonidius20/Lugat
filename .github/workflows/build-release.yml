@@ -22,7 +22,12 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout git repository
+              uses: actions/checkout@v4
+              with:
+                lfs: true
+            - name: Checkout LFS files
+              run: git lfs pull
             - name: Set up JDK 17
               uses: actions/setup-java@v2
               with:
