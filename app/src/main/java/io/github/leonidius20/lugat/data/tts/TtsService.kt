@@ -5,6 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import androidx.annotation.Keep
 import com.k2fsa.sherpa.onnx.MediaPlayerFactory
 import com.k2fsa.sherpa.onnx.OfflineTts
 import com.k2fsa.sherpa.onnx.getOfflineTtsConfig
@@ -117,6 +118,7 @@ class TtsService @Inject constructor(
         track.play()
     }
 
+    @Keep
     private fun callback(samples: FloatArray) {
         if (state.value == State.GENERATING) {
             _state.value = State.PLAYING
@@ -145,7 +147,9 @@ class TtsService @Inject constructor(
                 text = text,
                 sid = sid,
                 speed = speed,
-                callback = this@TtsService::callback
+                callback = {
+                    callback(it)
+                }
             )
 
             val filename = fileDirPath + "/generated.wav"

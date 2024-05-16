@@ -2,7 +2,9 @@
 package com.k2fsa.sherpa.onnx
 
 import android.content.res.AssetManager
+import androidx.annotation.Keep
 
+@Keep
 data class OfflineTtsVitsModelConfig(
     var model: String,
     var lexicon: String = "",
@@ -14,6 +16,7 @@ data class OfflineTtsVitsModelConfig(
     var lengthScale: Float = 1.0f,
 )
 
+@Keep
 data class OfflineTtsModelConfig(
     var vits: OfflineTtsVitsModelConfig,
     var numThreads: Int = 1,
@@ -21,8 +24,9 @@ data class OfflineTtsModelConfig(
     var provider: String = "cpu",
 )
 
+@Keep
 data class OfflineTtsConfig(
-    var model: OfflineTtsModelConfig,
+    @Keep var model: OfflineTtsModelConfig,
     var ruleFsts: String = "",
     var ruleFars: String = "",
     var maxNumSentences: Int = 1,

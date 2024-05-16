@@ -19,3 +19,36 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# todo multiple optimization passes?
+
+-keep public abstract class kotlin.collections.** {
+    *;
+ }
+
+-keepclasseswithmembernames,includedescriptorclasses class * {
+    native <methods>;
+}
+
+-keep class kotlin.** { *; }
+-keep class kotlin.Metadata { *; }
+-dontwarn kotlin.**
+-keepclassmembers class **$WhenMappings {
+    <fields>;
+}
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+}
+
+-keepnames class kotlinx.** { *; }
+
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+
+-keep class androidx.navigation.fragment.** { *; }
+
+-keep class io.github.leonidius20.lugat.** { *; }
