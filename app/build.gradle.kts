@@ -1,4 +1,5 @@
 import java.util.Properties
+import com.android.build.api.variant.FilterConfiguration.FilterType.*
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -6,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     id("androidx.navigation.safeargs.kotlin")
+    id("com.github.alexfu.androidautoversion")
 }
 
 android {
@@ -16,8 +18,8 @@ android {
         applicationId = "io.github.leonidius20.lugat"
         minSdk = 21
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = androidAutoVersion.versionCode
+        versionName = androidAutoVersion.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -87,6 +89,36 @@ android {
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            isUniversalApk = true
+        }
+    }
+}
+
+// Making sure that apk variants get unique version codes
+val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
+
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val name = output.filters.find { it.filterType == ABI }?.identifier
+            val baseAbiCode = abiCodes[name]
+            // Because abiCodes.get() returns null for ABIs that are not mapped by ext.abiCodes,
+            // the following code doesn't override the version code for universal APKs.
+            // However, because you want universal APKs to have the lowest version code,
+            // this outcome is desirable.
+            if (baseAbiCode != null) {
+                // Assigns the new version code to output.versionCode, which changes the version code
+                // for only the output APK, not for the variant itself.
+                output.versionCode.set(baseAbiCode * 1000 + (output.versionCode.get() ?: 0))
+            }
+        }
     }
 }
 

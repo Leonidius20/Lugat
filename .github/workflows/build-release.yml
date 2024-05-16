@@ -1,0 +1,135 @@
+# This action is manually triggered. It will bump the version according to argument (major, minor, patch),
+# commit the change to the development branch, get these values from version file, merge --no-ff the development branch into the master branch,
+# build a release APK, sing it, and create a draft release on GitHub named after the new version name
+# with the description having all commit messages since last tag.
+
+# but that's in the future, for now we just want to build a release APK and create a draft release on GitHub.
+name: Build Release APKs and AAB
+
+on:
+    workflow_dispatch:
+        #inputs:
+        #  version:
+        #      description: 'Version to bump to'
+        #      required: true
+        #      default: 'patch'
+
+permissions:
+    contents: write
+
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up JDK 17
+              uses: actions/setup-java@v2
+              with:
+                  java-version: 17
+                  cache: 'gradle'
+                  distribution: 'zulu'
+            - name: Grant execute permission for gradlew
+              run: chmod +x gradlew
+            - name: Create local.properties
+              # run: echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+              # run: echo "sdk.dir=/opt/android/sdk" > local.properties
+              # run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+              # run: echo "sdk.dir=/home/runner/work/_temp/_github_home/Android/sdk" > local.properties
+              run: touch local.properties
+            - name: Decode keystore
+              run: echo ${{ secrets.SIGNATURE_KEYSTORE_BASE64 }} | base64 --decode > android-keystore.jks
+            - name: Build APKs and AAB with Gradle
+              env:
+                SIGNATURE_KEYSTORE_PASSWORD: ${{ secrets.SIGNATURE_KEYSTORE_PASSWORD }}
+                SIGNATURE_KEY_PASSWORD: ${{ secrets.SIGNATURE_KEY_PASSWORD }}
+                SIGNATURE_KEY_ALIAS: ${{ vars.SIGNATURE_KEY_ALIAS }}
+              run: ./gradlew assembleRelease && ./gradlew bundleRelease
+            - name: Upload APKs # can be removed after we upload to the release
+              uses: actions/upload-artifact@v4
+              with:
+                name: apks
+                path: app/build/outputs/apk/release/app-*.apk
+            - name: Upload AABs # can be removed after we upload to the release
+              uses: actions/upload-artifact@v4
+              with:
+                name: app-release.aab
+                path: app/build/outputs/bundle/release/app-release.aab
+            - name: Read version name
+              id: read_version_name
+              uses: ActionsTools/read-json-action@main
+              with:
+                file_path: "./app/version"
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ steps.read_version_name.outputs.major }}.${{ steps.read_version_name.outputs.minor }}.${{ steps.read_version_name.outputs.patch }}
+                  release_name: ${{ steps.read_version_name.outputs.major }}.${{ steps.read_version_name.outputs.minor }}.${{ steps.read_version_name.outputs.patch }}
+                  body: |
+                      Changes in this Release
+                      - <add changes here>
+                  draft: true
+                  prerelease: false
+            - name: Attach universal APK to Release
+              id: upload-release-asset-universal-apk
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                 upload_url: ${{ steps.create_release.outputs.upload_url }}
+                 asset_path: ./app/build/outputs/apk/release/app-universal-release.apk
+                 asset_name: app-universal-release.apk
+                 asset_content_type: application/vnd.android.package-archive
+            - name: Attach arm64-v8a APK to Release
+              id: upload-release-asset-arm64-v8a-apk
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ steps.create_release.outputs.upload_url }}
+                asset_path: ./app/build/outputs/apk/release/app-arm64-v8a-release.apk
+                asset_name: app-arm64-v8a-release.apk
+                asset_content_type: application/vnd.android.package-archive
+            - name: Attach armeabi-v7a APK to Release
+              id: upload-release-asset-armeabi-v7a-apk
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ steps.create_release.outputs.upload_url }}
+                asset_path: ./app/build/outputs/apk/release/app-armeabi-v7a-release.apk
+                asset_name: app-armeabi-v7a-release.apk
+                asset_content_type: application/vnd.android.package-archive
+            - name: Attach x86 APK to Release
+              id: upload-release-asset-x86-apk
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ steps.create_release.outputs.upload_url }}
+                asset_path: ./app/build/outputs/apk/release/app-x86-release.apk
+                asset_name: app-x86-release.apk
+                asset_content_type: application/vnd.android.package-archive
+            - name: Attach x86_64 APK to Release
+              id: upload-release-asset-x86_64-apk
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ steps.create_release.outputs.upload_url }}
+                asset_path: ./app/build/outputs/apk/release/app-x86_64-release.apk
+                asset_name: app-x86_64-release.apk
+                asset_content_type: application/vnd.android.package-archive
+            - name: Attach AAB to Release
+              id: upload-release-asset-aab
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                   upload_url: ${{ steps.create_release.outputs.upload_url }}
+                   asset_path: ./app/build/outputs/bundle/release/app-release.aab
+                   asset_name: app-release.aab
+                   asset_content_type: application/x-authorware-bin
