@@ -97,18 +97,23 @@ class HomeFragment : Fragment() {
             MenuItem(getString(R.string.main_menu_item_transliteration), R.drawable.ic_transliterate) {
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             },
-            MenuItem("Read aloud (text-to-speech)", R.drawable.ic_read_aloud) {
+            MenuItem(getString(R.string.main_menu_text_to_speech), R.drawable.ic_read_aloud) {
                 findNavController().navigate(R.id.action_HomeFragment_to_TtsFragment)
             },
-            MenuItem("About app", R.drawable.ic_about_app) {
+            MenuItem(getString(R.string.main_menu_about_app), R.drawable.ic_about_app) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("About")
-                    .setMessage("Version ${BuildConfig.VERSION_NAME}\nCPU architecture: ${System.getProperty("os.arch")}\nThe software is provided as-is free of charge without any guarantees.")
+                    .setTitle(R.string.main_menu_about_app)
+                    .setMessage(
+                        getString(
+                            R.string.about_app_text,
+                            BuildConfig.VERSION_NAME,
+                            System.getProperty("os.arch")
+                        ))
                     // todo: add a slide-out with "Licenses", "Terms and conditions", "Source code", "App version", "Info about device (cpu abi)"
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
                     .show()
             },
-            MenuItem("Source code (Github)", R.drawable.ic_link) {
+            MenuItem(getString(R.string.main_menu_source_code), R.drawable.ic_link) {
                 val intent = Intent(Intent.ACTION_VIEW, getString(R.string.github_repo_link).toUri())
                 startActivity(intent)
             }

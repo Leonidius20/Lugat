@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sesli Luğat</string>
+    <string name="transliteration_screen_cyrillic">Кирилиця</string>
+    <string name="transliteration_screen_latin">Латиниця</string>
+    <string name="transliteration_screen_change_direction">Змінити напрям транслітерації</string>
+    <string name="transliteration_screen_clear">Очистити</string>
+    <string name="transliteration_screen_copy">Копіювати</string>
+    <string name="transliteration_screen_paste">Вставити</string>
+    <string name="tts_screen_read_aloud">Озвучити</string>
+    <string name="tts_text_hint">Вставте текст тут (тільки кирилицею!)</string>
+    <string name="main_menu_item_transliteration">Транслітератор</string>
+    <string name="bottom_menu_settings">Налаштування</string>
+    <string name="bottom_menu_saved_words">Збережені слова</string>
+    <string name="main_screen_search_hint">Пошук слів…</string>
+    <string name="speed_label">Швидкість мовлення</string>
+    <string name="text_hint">Введіть текст тут</string>
+    <string name="main_menu_text_to_speech">Озвучення тексту</string>
+    <string name="main_menu_about_app">Про застосунок</string>
+    <string name="main_menu_source_code">Вихідний код (Github)</string>
+    <string name="about_app_text">Версія %1$s\nАрхітектура ЦП: %2$s\nПЗ надано \"як є\" безкоштовно і без жодних гарантій.</string>
+</resources>
