@@ -14,6 +14,9 @@ This is a Crimean Tatar-russian dictionary with text-to-speech capabilities.
 ## Technologies
 This project implements the Single-Activity Architecture and uses Android Architecture Components ([ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), [Navigation & Safe Args](https://developer.android.com/guide/navigation)), [ViewBinding](https://developer.android.com/topic/libraries/view-binding), [RecyclerView](https://developer.android.com/develop/ui/views/layout/recyclerview), [Room](https://developer.android.com/training/data-storage/room), [Dagger/Hilt](https://dagger.dev/hilt/), [Material Components](https://github.com/material-components/material-components-android), Kotlin [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) and [Flows](https://kotlinlang.org/docs/flow.html), a TTS model from Facebook's [Massively Multilingual Speech project](https://huggingface.co/facebook/mms-tts-crh), and [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) to run the model on-device.
 
+## Screenshots
+![Combined screenshots](docs/screenshots/combined.png)
+
 ## Building from sources locally
 ### Prerequisites
 - The TTS model and the native libraries are stored in this repository using Git LFS. Before cloning the repo make sure that the LFS extension for Git is installed (it is included in the default Git installation for Windows). If those files are missing after cloning, run 
@@ -48,16 +51,13 @@ The bundle will be in `app/build/outputs/bundle/release/app-release.aab`.
 
 ## Building with Github Actions
 If you fork this repository, you can use Github Actions to build and publish the release vesrion of your fork.
-- In your fork of add the following repository secrets:
+- In your fork add the following repository secrets:
   - `SIGNATURE_KEYSTORE_BASE64` - your keystore file encoded in base64;
   - `SIGNATURE_KEYSTORE_PASSWORD` - the password to the key in the keystore that you want to use for signing the app.
 - Add a repository variable with the following name and value:
   - `SIGNATURE_KEY_ALIAS` - the alias of the key that you want to use.
 - Run the "Build Release APKs and AAB" workflow.
 - When the workflow job finishes, the APKs and the AAB will be available as its artifacts. A draft release will also be created and the files will be attached to it.
-
-## Screenshots
-![Combined screenshots](docs/screenshots/combined.png)
 
 ## License
 This project is licensed under the [GNU General Public License v3](LICENSE).
