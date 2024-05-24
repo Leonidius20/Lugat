@@ -34,4 +34,5 @@
     <string name="main_menu_about_app">About the app</string>
     <string name="main_menu_source_code">Source code (Github)</string>
     <string name="about_app_text">Version %1$s\nCPU architecture: %2$s\nThe software is provided as-is free of charge without any guarantees.</string>
+    <string name="words_search_no_results">No results</string>
 </resources>

@@ -127,15 +127,14 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                    when(it) {
-                        is HomeViewModel.UiState.Loaded -> {
-                            val adapter = SearchResultListAdapter(it.data, this@HomeFragment::onOpenWordDetails)
-                            binding.searchResultsList.adapter = adapter
-                            // do something
-                        }
-                        is HomeViewModel.UiState.Uninitialized -> {
-                            // do nothing
-                        }
+                    // todo: replace with databinding?
+                    binding.wordsSearchNoResultsText.visibility = if (it is HomeViewModel.UiState.EmptyResult) View.VISIBLE else View.GONE
+                    binding.wordsSearchLoadingIndicator.visibility = if (it is HomeViewModel.UiState.Loading) View.VISIBLE else View.GONE
+                    binding.searchResultsList.visibility = if (it is HomeViewModel.UiState.Loaded) View.VISIBLE else View.GONE
+
+                    if (it is HomeViewModel.UiState.Loaded) {
+                        val adapter = SearchResultListAdapter(it.data, this@HomeFragment::onOpenWordDetails)
+                        binding.searchResultsList.adapter = adapter
                     }
                 }
             }
