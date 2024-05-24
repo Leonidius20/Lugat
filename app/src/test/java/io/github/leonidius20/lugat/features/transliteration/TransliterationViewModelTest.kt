@@ -3,18 +3,13 @@ package io.github.leonidius20.lugat.features.transliteration
 import io.github.leonidius20.lugat.ReplaceMainDispatcherWithStandardTestDispatcherRule
 import io.github.leonidius20.lugat.domain.interactors.transliterate.TransliterationInteractor
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,6 +42,34 @@ class TransliterationViewModelTest {
         viewModel.transliterate("тест")
         advanceUntilIdle()
         assertEquals("test", viewModel.uiState.first().targetText)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `paste button should be visible if source text is empty, clear and copy buttons not`() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
+
+        viewModel.transliterate("")
+        advanceUntilIdle()
+        assertEquals(true, viewModel.uiState.first().isPasteButtonVisible)
+        assertEquals(false, viewModel.uiState.first().isClearButtonVisible)
+        assertEquals(false, viewModel.uiState.first().isCopyButtonVisible)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `clear and copy buttons should be visible if source text is not empty, paste button not`() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
+
+        viewModel.transliterate("тест")
+        advanceUntilIdle()
+        assertEquals(true, viewModel.uiState.first().isClearButtonVisible)
+        assertEquals(true, viewModel.uiState.first().isCopyButtonVisible)
+        assertEquals(false, viewModel.uiState.first().isPasteButtonVisible)
     }
 
 }
