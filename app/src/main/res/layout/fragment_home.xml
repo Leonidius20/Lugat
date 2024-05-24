@@ -32,7 +32,25 @@
         app:iconifiedByDefault="true"
         app:useDrawerArrowDrawable="true" >
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/words_search_loading_indicator"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/words_search_no_results_text"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:text="@string/words_search_no_results"/>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/search_results_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

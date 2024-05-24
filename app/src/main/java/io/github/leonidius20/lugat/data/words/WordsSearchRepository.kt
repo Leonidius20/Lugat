@@ -2,22 +2,32 @@ package io.github.leonidius20.lugat.data.words
 
 import io.github.leonidius20.lugat.data.db.WordsDao
 import io.github.leonidius20.lugat.domain.entities.WordSearchResult
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
 class WordsSearchRepository @Inject constructor(
     private val dao: WordsDao,
+    @Named("io") private val ioDispatcher: CoroutineDispatcher,
 ) {
 
-    private val _searchResults = MutableStateFlow(emptyList<WordSearchResult>())
+    private val _searchResults: MutableStateFlow<FetchableResource<List<WordSearchResult>>> =
+        MutableStateFlow(
+            FetchableResource.of(emptyList()))
 
-    val searchResults: Flow<List<WordSearchResult>> = _searchResults.asStateFlow()
+    val searchResults = _searchResults.asStateFlow()
 
     suspend fun search(query: String) {
-        val result = dao.search(query)
-        _searchResults.value = result.map { it.toDomainObject() }
+        _searchResults.value = FetchableResource.loading()
+        val result = withContext(ioDispatcher) {
+            dao.search(query)
+        }
+        _searchResults.value = FetchableResource.of(
+            result.map { it.toDomainObject() }
+        )
     }
 
 
