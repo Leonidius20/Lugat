@@ -5,13 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leonidius20.lugat.domain.interactors.transliterate.TransliterationInteractor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -27,43 +24,33 @@ class TransliterationViewModel @Inject constructor(
 
     private val sourceTextFlow = MutableStateFlow("")
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val isClearButtonVisible = sourceTextFlow.mapLatest {
-        it.isNotEmpty()
-    }.stateIn(
-        viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = false
-    )
-
-    val isPasteButtonVisible = isClearButtonVisible.map {
-        !it
-    }.stateIn(
-        viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = false
+    class UiState(
+        val targetText: String,
+        val isClearButtonVisible: Boolean,
+        val isPasteButtonVisible: Boolean,
+        val isCopyButtonVisible: Boolean,
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val targetTextFlow = combine(sourceTextFlow, direction) { text, direction ->
+    val uiState = combine(sourceTextFlow, direction) { text, direction ->
         text to direction
-    }
-        .mapLatest { (text, direction) ->
-            transliterationInteractor.transliterate(text, direction)
-        }
-        .stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = ""
+    }.mapLatest { (sourceText, direction) ->
+        val targetText = transliterationInteractor.transliterate(sourceText, direction)
+        UiState(
+            targetText = targetText,
+            isClearButtonVisible = sourceText.isNotEmpty(),
+            isPasteButtonVisible = sourceText.isEmpty(),
+            isCopyButtonVisible = targetText.isNotEmpty(),
         )
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val isCopyButtonVisible = targetTextFlow.mapLatest {
-        it.isNotEmpty()
     }.stateIn(
         viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = false
+        initialValue = UiState(
+            targetText = "",
+            isClearButtonVisible = false,
+            isPasteButtonVisible = true,
+            isCopyButtonVisible = false,
+        )
     )
 
     fun transliterate(text: String) {

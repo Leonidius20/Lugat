@@ -67,7 +67,7 @@ class TransliterationFragment : Fragment() {
         val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
         binding.transliterationScreenCopyButton.setOnClickListener {
-            val clip = ClipData.newPlainText("Transliterated", viewModel.targetTextFlow.value)
+            val clip = ClipData.newPlainText("Transliterated", viewModel.uiState.value.targetText)
             clipboard.setPrimaryClip(clip)
         }
 
@@ -82,8 +82,14 @@ class TransliterationFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.targetTextFlow.onEach {
-                    binding.transliterationTargetText.setText(it)
+                viewModel.uiState.onEach {
+                    with(binding) {
+                        transliterationTargetText.text = it.targetText
+                        transliterationScreenClearButton.isVisible = it.isClearButtonVisible
+                        transliterationScreenCopyButton.isVisible = it.isCopyButtonVisible
+                        transliterationScreenPasteButton.isVisible = it.isPasteButtonVisible
+                    }
+
                 }.launchIn(this)
 
                 viewModel.direction.onEach {
@@ -97,18 +103,6 @@ class TransliterationFragment : Fragment() {
                             binding.targetAlphabetText.setText(R.string.transliteration_screen_cyrillic)
                         }
                     }
-                }.launchIn(this)
-
-                viewModel.isClearButtonVisible.onEach {
-                    binding.transliterationScreenClearButton.isVisible = it
-                }.launchIn(this)
-
-                viewModel.isCopyButtonVisible.onEach {
-                    binding.transliterationScreenCopyButton.isVisible = it
-                }.launchIn(this)
-
-                viewModel.isPasteButtonVisible.onEach {
-                    binding.transliterationScreenPasteButton.isVisible = it
                 }.launchIn(this)
             }
         }
