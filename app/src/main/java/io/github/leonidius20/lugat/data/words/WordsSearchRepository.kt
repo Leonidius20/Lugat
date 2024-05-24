@@ -16,7 +16,7 @@ class WordsSearchRepository @Inject constructor(
 
     private val _searchResults: MutableStateFlow<FetchableResource<List<WordSearchResult>>> =
         MutableStateFlow(
-            FetchableResource.of(emptyList()))
+            FetchableResource.uninitialized())
 
     val searchResults = _searchResults.asStateFlow()
 

@@ -6,6 +6,8 @@ sealed interface FetchableResource<T> {
 
     data class Loaded<T>(val data: T): FetchableResource<T>
 
+    class Uninitialized<T>: FetchableResource<T>
+
     companion object {
 
         fun <T> loading() = Loading<T>()
@@ -13,6 +15,8 @@ sealed interface FetchableResource<T> {
         fun <T> of(data: T): FetchableResource<T> {
             return Loaded(data)
         }
+
+        fun <T> uninitialized() = Uninitialized<T>()
 
     }
 
