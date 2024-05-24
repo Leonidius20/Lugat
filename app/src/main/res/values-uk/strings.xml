@@ -19,5 +19,5 @@
     <string name="main_menu_about_app">Про застосунок</string>
     <string name="main_menu_source_code">Вихідний код (Github)</string>
     <string name="about_app_text">Версія %1$s\nАрхітектура ЦП: %2$s\nПЗ надано \"як є\" безкоштовно і без жодних гарантій.</string>
-    <string name="words_search_no_results">No results</string>
+    <string name="words_search_no_results">Немає результатів</string>
 </resources>

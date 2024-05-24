@@ -19,5 +19,5 @@
     <string name="main_menu_about_app">О программе</string>
     <string name="main_menu_source_code">Исходный код (Github)</string>
     <string name="about_app_text">Версия %1$s\nАрхитектура ЦП: %2$s\nПО предоставляется \"как есть\" бесплатно и без каких-либо гарантий.</string>
-    <string name="words_search_no_results">No results</string>
+    <string name="words_search_no_results">Нет результатов</string>
 </resources>

@@ -20,6 +20,7 @@ class HomeViewModel @Inject constructor(
     val uiState = repository.searchResults.map { result ->
         when(result) {
             is FetchableResource.Loading -> UiState.Loading
+            is FetchableResource.Uninitialized -> UiState.Uninitialized
             is FetchableResource.Loaded -> {
                 if (result.data.isEmpty()) {
                     UiState.EmptyResult
