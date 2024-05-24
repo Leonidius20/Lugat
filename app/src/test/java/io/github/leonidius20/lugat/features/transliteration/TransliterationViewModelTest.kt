@@ -28,12 +28,15 @@ class TransliterationViewModelTest {
         viewModel = TransliterationViewModel(
             TransliterationInteractor(mainDispatcherRule.testDispatcher),
         )
-        if (viewModel.direction.value != TransliterationInteractor.Direction.CYRILLIC_TO_LATIN) {
-            viewModel.toggleDirection()
-        }
         TestScope(UnconfinedTestDispatcher(mainDispatcherRule.testDispatcher.scheduler)).launch {
             viewModel.uiState.collect()
+            viewModel.direction.collect()
         }
+    }
+
+    @Test
+    fun `default transliteration direction is cyrillic to latin`() {
+        assertEquals(TransliterationInteractor.Direction.CYRILLIC_TO_LATIN, viewModel.direction.value)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -75,6 +78,14 @@ class TransliterationViewModelTest {
         assertEquals(true, viewModel.uiState.first().isClearButtonVisible)
         assertEquals(true, viewModel.uiState.first().isCopyButtonVisible)
         assertEquals(false, viewModel.uiState.first().isPasteButtonVisible)
+    }
+
+    @Test
+    fun `toggleDirection should change direction`() {
+        viewModel.toggleDirection()
+        assertEquals(TransliterationInteractor.Direction.LATIN_TO_CYRILLIC, viewModel.direction.value)
+        viewModel.toggleDirection()
+        assertEquals(TransliterationInteractor.Direction.CYRILLIC_TO_LATIN, viewModel.direction.value)
     }
 
 }
