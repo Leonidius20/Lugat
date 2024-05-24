@@ -21,6 +21,8 @@ android {
         versionCode = androidAutoVersion.versionCode
         versionName = androidAutoVersion.versionName
 
+        resourceConfigurations.addAll(listOf("en", "ru", "uk", "crh"))
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -64,12 +66,29 @@ android {
         debug {
             // if there is no keystore file, use debug signature,
             // otherwise use production keystore
-            signingConfig = if (!keystoreFile.exists())
+            /*signingConfig = if (!keystoreFile.exists())
                 signingConfigs.getByName("debug")
             else
-                signingConfigs.getByName("with-production-signature")
+                signingConfigs.getByName("with-production-signature")*/
         }
     }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            resourceConfigurations.addAll(listOf("en", "xxhdpi"))
+            versionCode = 1
+            versionName = "devbuild"
+        }
+        create("prod") {
+            dimension = "environment"
+            versionCode = androidAutoVersion.versionCode
+            versionName = androidAutoVersion.versionName
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -107,6 +126,17 @@ android {
 val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
 androidComponents {
+    beforeVariants { variantBuilder ->
+        // not make the dev-release and prod-debug variants
+        if (variantBuilder.productFlavors.contains("environment" to "prod") && variantBuilder.buildType == "debug") {
+            variantBuilder.enable = false
+        }
+
+        if (variantBuilder.productFlavors.contains("environment" to "dev") && variantBuilder.buildType == "release") {
+            variantBuilder.enable = false
+        }
+    }
+
     onVariants { variant ->
         variant.outputs.forEach { output ->
             val name = output.filters.find { it.filterType == ABI }?.identifier
@@ -146,6 +176,6 @@ dependencies {
 
     implementation(libs.material.lists)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    implementation(libs.kotlinx.coroutines.android)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -21,6 +22,7 @@ class TransliterationViewModelTest {
 
     private lateinit var viewModel: TransliterationViewModel
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         viewModel = TransliterationViewModel(
@@ -29,15 +31,18 @@ class TransliterationViewModelTest {
         if (viewModel.direction.value != TransliterationInteractor.Direction.CYRILLIC_TO_LATIN) {
             viewModel.toggleDirection()
         }
+        TestScope(UnconfinedTestDispatcher(mainDispatcherRule.testDispatcher.scheduler)).launch {
+            viewModel.uiState.collect()
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `transliterate should update uiState with targetText`() = runTest {
         // empty collector for stateflow, otherwise stateIn doesn't start collecting
-        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+        /*backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
             viewModel.uiState.collect()
-        }
+        }*/
 
         viewModel.transliterate("тест")
         advanceUntilIdle()
@@ -47,9 +52,9 @@ class TransliterationViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `paste button should be visible if source text is empty, clear and copy buttons not`() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+        /*backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
             viewModel.uiState.collect()
-        }
+        }*/
 
         viewModel.transliterate("")
         advanceUntilIdle()
@@ -61,9 +66,9 @@ class TransliterationViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `clear and copy buttons should be visible if source text is not empty, paste button not`() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+        /*backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
             viewModel.uiState.collect()
-        }
+        }*/
 
         viewModel.transliterate("тест")
         advanceUntilIdle()
