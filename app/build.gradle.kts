@@ -145,4 +145,7 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.material.lists)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
 }
