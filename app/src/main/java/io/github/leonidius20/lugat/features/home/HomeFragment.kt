@@ -137,6 +137,7 @@ class HomeFragment : Fragment() {
                         binding.searchResultsList.adapter = adapter
                     }
                 }
+
             }
         }
 

@@ -14,20 +14,24 @@ class WordsSearchRepository @Inject constructor(
     @Named("io") private val ioDispatcher: CoroutineDispatcher,
 ) {
 
-    private val _searchResults: MutableStateFlow<FetchableResource<List<WordSearchResult>>> =
+    /*private val _searchResults: MutableStateFlow<FetchableResource<List<WordSearchResult>>> =
         MutableStateFlow(
             FetchableResource.uninitialized())
 
-    val searchResults = _searchResults.asStateFlow()
+    val searchResults = _searchResults.asStateFlow()*/
 
-    suspend fun search(query: String) {
-        _searchResults.value = FetchableResource.loading()
+    /*suspend fun search(query: String) {
+        _searchResults.emit(FetchableResource.loading())
         val result = withContext(ioDispatcher) {
             dao.search(query)
         }
         _searchResults.value = FetchableResource.of(
             result.map { it.toDomainObject() }
         )
+    }*/
+
+    suspend fun search(query: String): List<WordSearchResult> = withContext(ioDispatcher) {
+        dao.search(query).map { searchResult -> searchResult.toDomainObject() }
     }
 
 
