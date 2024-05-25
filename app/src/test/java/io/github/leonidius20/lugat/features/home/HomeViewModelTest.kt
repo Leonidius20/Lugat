@@ -1,6 +1,5 @@
 package io.github.leonidius20.lugat.features.home
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import io.github.leonidius20.lugat.ReplaceMainDispatcherWithStandardTestDispatcherRule
 import io.github.leonidius20.lugat.data.db.WordInDb
@@ -20,9 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class HomeViewModelTest {
-
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val mainDispatcherRule = ReplaceMainDispatcherWithStandardTestDispatcherRule()

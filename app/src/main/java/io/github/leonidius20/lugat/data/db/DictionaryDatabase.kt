@@ -19,4 +19,9 @@ abstract class DictionaryDatabase : RoomDatabase() {
 
     abstract fun wordDetailsDao(): WordDetailsDao
 
+    /**
+     * this is only used for automated testing
+     */
+    abstract fun testDao(): TestDao
+
 }
