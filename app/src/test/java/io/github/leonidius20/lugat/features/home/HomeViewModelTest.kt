@@ -6,22 +6,18 @@ import io.github.leonidius20.lugat.ReplaceMainDispatcherWithStandardTestDispatch
 import io.github.leonidius20.lugat.data.db.WordInDb
 import io.github.leonidius20.lugat.data.db.WordsDao
 import io.github.leonidius20.lugat.data.words.WordsSearchRepository
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-
-import junit.framework.TestCase.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Rule
+import org.junit.Test
 
 class HomeViewModelTest {
 
@@ -72,17 +68,16 @@ class HomeViewModelTest {
 
 
     @Test
-    fun `initial state is uninitialized`() = testScope.runTest {
+    fun `initial state is uninitialized and loading state happens before loaded`() = testScope.runTest {
         val viewModel = createViewModel(createRepositoryWithFakeDao(createFakeDaoThatAlwaysReturns {
+            println("before sleep ${System.currentTimeMillis()}")
             Thread.sleep(1_000)
+            println("after sleep ${System.currentTimeMillis()}")
             emptyList()
         }))
 
         viewModel.uiState.test {
             viewModel.performSearch("")
-
-            // todo: https://medium.com/@erik.r.yverling/unit-testing-ui-state-in-android-viewmodels-b19973311900
-            // it fails to deliver the Loading state for some reason. It is also not shown in UI
 
             advanceUntilIdle()
 
@@ -91,21 +86,6 @@ class HomeViewModelTest {
             assertEquals(HomeViewModel.UiState.EmptyResult, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
-
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
-    fun `loading state happens before results are loaded`() = testScope.runTest {
-        val viewModel = createViewModel(createRepositoryWithFakeDao(createFakeDaoThatAlwaysReturns(emptyList())))
-
-        viewModel.performSearch("")
-
-        assertThat(viewModel.uiState.value, instanceOf<HomeViewModel.UiState>(
-            HomeViewModel.UiState.Loading::class.java))
-
-        // run the loading coroutine
-        advanceUntilIdle()
 
     }
 
