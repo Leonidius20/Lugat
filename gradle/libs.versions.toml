@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.0"
+androidx-test-core = "1.5.0"
 coreTesting = "2.2.0"
 kotlin = "1.9.23"
 coreKtx = "1.13.0"
@@ -17,8 +18,10 @@ ksp = "1.9.23-1.0.20" # has to be compatible with kotlin version
 hilt = "2.49"
 material-lists = "0.5.1"
 turbine = "1.1.0"
+robolectric = "4.12.2"
 
 [libraries]
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -38,6 +41,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 material-lists = { group = "net.nicbell.material-lists", name = "listitem", version.ref = "material-lists" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

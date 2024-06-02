@@ -3,23 +3,17 @@ package io.github.leonidius20.lugat.data.db
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.contains
-import junit.framework.TestCase.assertTrue
 import org.robolectric.RobolectricTestRunner
-import java.io.File
 
 @RunWith(RobolectricTestRunner::class)
-@SmallTest
-class WordsDaoTest {
+class WordsDaoUnitTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -33,7 +27,7 @@ class WordsDaoTest {
         db = Room.inMemoryDatabaseBuilder(
             getApplicationContext(),
             DictionaryDatabase::class.java
-        ).build()
+        ).allowMainThreadQueries().build()
     }
 
     // so that we only depend on the constructor in one place
