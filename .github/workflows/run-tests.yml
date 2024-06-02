@@ -9,6 +9,8 @@ on:
     branches:
       - master
 
+permissions:
+  checks: write
 
 jobs:
   test:
@@ -24,6 +26,8 @@ jobs:
           java-version: 17
           cache: 'gradle'
           distribution: 'zulu'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run unit tests
@@ -32,6 +36,6 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
-          name: JEST Tests            # Name of the check run which will be created
+          name: JUnit Tests            # Name of the check run which will be created
           path: app/build/test-results/testProdReleaseUnitTest/TEST-*.xml    # Path to test results
           reporter: java-junit        # Format of test results
