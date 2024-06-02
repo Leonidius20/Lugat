@@ -120,6 +120,12 @@ android {
             isUniversalApk = true
         }
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 // Making sure that apk variants get unique version codes
@@ -166,6 +172,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // for robolectric tests
+    testImplementation(libs.androidx.test.core)
+
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     annotationProcessor(libs.room.compiler)
@@ -180,8 +189,11 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
     androidTestImplementation(libs.kotlinx.coroutines.test)
 
-
     testImplementation(libs.turbine)
+
+    testImplementation(libs.robolectric)
+    androidTestImplementation(libs.robolectric)
 }
