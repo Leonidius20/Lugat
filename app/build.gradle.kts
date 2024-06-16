@@ -171,6 +171,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.espresso.core)
 
     // for robolectric tests
     testImplementation(libs.androidx.test.core)
@@ -201,4 +202,6 @@ dependencies {
 
     testImplementation(libs.robolectric)
     androidTestImplementation(libs.robolectric)
+
+    debugImplementation(libs.androidx.fragment.testing)
 }

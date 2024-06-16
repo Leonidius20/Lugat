@@ -1,5 +1,6 @@
 package io.github.leonidius20.lugat.features.transliteration
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,6 +67,11 @@ class TransliterationViewModel @Inject constructor(
             } else {
                 TransliterationInteractor.Direction.CYRILLIC_TO_LATIN
             }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun _setDirection(direction: TransliterationInteractor.Direction) {
+        _direction.value = direction
     }
 
 }
