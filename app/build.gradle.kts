@@ -90,11 +90,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         viewBinding = true
@@ -191,6 +191,11 @@ dependencies {
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     androidTestImplementation(libs.kotlinx.coroutines.test)
+
+    testImplementation(libs.mockito.kotlin)
+   // testImplementation(libs.androidx.espresso.core)
+  // testImplementation(libs.androidx.test.runner)
+  //  testImplementation(libs.androidx.test.rules)
 
     testImplementation(libs.turbine)
 
