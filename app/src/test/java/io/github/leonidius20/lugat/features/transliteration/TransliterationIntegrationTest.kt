@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import io.github.leonidius20.lugat.ReplaceMainDispatcherWithStandardTestDispatcherRule
 import io.github.leonidius20.lugat.domain.interactors.transliterate.TransliterationInteractor
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

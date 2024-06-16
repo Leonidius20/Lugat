@@ -16,7 +16,6 @@ import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 class TransliterationViewModelTest {
@@ -93,18 +92,18 @@ class TransliterationViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `toggleDirection should cause transliteration to rerun`() = testScope.runTest {
+    fun `toggling direction should cause transliteration to rerun`() = testScope.runTest {
         val translitarator = createTransliteratorThatAlwaysReturns("test")
         val vm = createViewModelWith(translitarator)
+        vm._setDirection(TransliterationInteractor.Direction.CYRILLIC_TO_LATIN)
 
         vm.transliterate("тест")
         advanceUntilIdle()
-        // first invocation of translitarator.transliterate() should happen here
+        verify(translitarator).transliterate("тест", TransliterationInteractor.Direction.CYRILLIC_TO_LATIN)
 
         vm.toggleDirection()
         advanceUntilIdle()
-
-        verify(translitarator, times(2)).transliterate("тест", TransliterationInteractor.Direction.LATIN_TO_CYRILLIC)
+        verify(translitarator).transliterate("тест", TransliterationInteractor.Direction.LATIN_TO_CYRILLIC)
     }
 
     @Test
