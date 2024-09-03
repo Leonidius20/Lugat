@@ -2,15 +2,15 @@ package io.github.leonidius20.lugat.features.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.leonidius20.lugat.data.words.FetchableResource
 import io.github.leonidius20.lugat.data.words.WordsSearchRepository
 import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -53,6 +53,11 @@ class HomeViewModel @Inject constructor(
                 _uiState.value = UiState.Loaded(result.map {
                     WordSearchResultUi.fromDomainObject(it)
                 })
+            }
+        }
+        viewModelScope.launch {
+            Firebase.analytics.logEvent(FirebaseAnalytics.Event.SEARCH) {
+                param(FirebaseAnalytics.Param.SEARCH_TERM, query)
             }
         }
 

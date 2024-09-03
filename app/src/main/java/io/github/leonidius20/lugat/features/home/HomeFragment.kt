@@ -9,7 +9,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,17 +19,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.search.SearchView
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.logEvent
-import io.github.leonidius20.lugat.features.tts.ui.TtsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.BuildConfig
-import io.github.leonidius20.lugat.MainActivity
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
+import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 import io.github.leonidius20.lugat.features.home.ui.MenuAdapter
 import io.github.leonidius20.lugat.features.home.ui.SearchResultListAdapter
-import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
 import kotlinx.coroutines.launch
 
 /**
@@ -70,9 +65,6 @@ class HomeFragment : Fragment() {
                     val queryText = textView.text.toString()
                     searchBar.setText(queryText)
                     viewModel.performSearch(queryText)
-                    (requireActivity() as MainActivity).analyitcs.logEvent(FirebaseAnalytics.Event.SEARCH) {
-                        param(FirebaseAnalytics.Param.SEARCH_TERM, queryText)
-                    }
                     //hide() // searchView.hide()
                     return@setOnEditorActionListener false
                 }
