@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "io.github.leonidius20.lugat"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = androidAutoVersion.versionCode
         versionName = androidAutoVersion.versionName
@@ -81,8 +81,8 @@ android {
         create("dev") {
             dimension = "environment"
             resourceConfigurations.addAll(listOf("en", "xxhdpi"))
-            versionCode = 1
-            versionName = "devbuild"
+            versionCode = androidAutoVersion.versionCode
+            versionName = androidAutoVersion.versionName
         }
         create("prod") {
             dimension = "environment"
@@ -172,6 +172,10 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

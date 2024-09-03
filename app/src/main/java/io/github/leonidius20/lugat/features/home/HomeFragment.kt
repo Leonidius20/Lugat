@@ -118,6 +118,11 @@ class HomeFragment : Fragment() {
             },
             MenuItem("force crush", R.drawable.ic_back) {
                 throw RuntimeException("this is a test crush")
+            },
+            MenuItem("Account management", R.drawable.giray_tamga) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeToAccountManagement()
+                )
             }
         )
 

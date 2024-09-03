@@ -23,6 +23,11 @@
         <action
             android:id="@+id/action_HomeFragment_to_TtsFragment"
             app:destination="@id/TtsFragment" />
+
+        <action
+            android:id="@+id/action_Home_to_AccountManagement"
+            app:destination="@id/accountManagementFragment"/>
+
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -50,5 +55,10 @@
         android:id="@+id/TtsFragment"
         android:name="io.github.leonidius20.lugat.features.tts.ui.TtsFragment"
         tools:layout="@layout/activity_tts"/>
+
+    <fragment
+        android:id="@+id/accountManagementFragment"
+        android:name="io.github.leonidius20.lugat.features.auth.AccountManagementFragment"
+        tools:layout="@layout/fragment_account_management"/>
 
 </navigation>
