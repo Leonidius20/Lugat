@@ -24,6 +24,7 @@ robolectric = "4.12.2"
 firebaseCrashlytics = "19.0.3"
 googleGmsGoogleServices = "4.4.2"
 googleFirebaseCrashlytics = "3.0.2"
+firebaseAnalytics = "22.1.0"
 
 [libraries]
 androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragmentTesting" }
@@ -50,6 +51,7 @@ material-lists = { group = "net.nicbell.material-lists", name = "listitem", vers
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

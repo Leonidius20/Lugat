@@ -14,13 +14,15 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
+
+-keep public class * extends java.lang.Exception  # Keep custom exceptions for Crashlytics
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# todo multiple optimization passes?
+
 
 -keep public abstract class kotlin.collections.** {
     *;

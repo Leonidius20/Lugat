@@ -20,9 +20,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.search.SearchView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
 import io.github.leonidius20.lugat.features.tts.ui.TtsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.BuildConfig
+import io.github.leonidius20.lugat.MainActivity
 import io.github.leonidius20.lugat.R
 import io.github.leonidius20.lugat.databinding.FragmentHomeBinding
 import io.github.leonidius20.lugat.features.home.ui.MenuAdapter
@@ -67,6 +70,9 @@ class HomeFragment : Fragment() {
                     val queryText = textView.text.toString()
                     searchBar.setText(queryText)
                     viewModel.performSearch(queryText)
+                    (requireActivity() as MainActivity).analyitcs.logEvent(FirebaseAnalytics.Event.SEARCH) {
+                        param(FirebaseAnalytics.Param.SEARCH_TERM, queryText)
+                    }
                     //hide() // searchView.hide()
                     return@setOnEditorActionListener false
                 }
