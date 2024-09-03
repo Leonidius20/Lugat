@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leonidius20.lugat.data.auth.GoogleAuth
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +21,7 @@ class AccountManagementViewModel @Inject constructor(
         AccountManagementUiState(
             isLoggedIn = authState is GoogleAuth.LoginState.LoggedIn
         )
-    }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, AccountManagementUiState(false))
 
     fun initLoginWithGoogleFlow() {
         viewModelScope.launch {
