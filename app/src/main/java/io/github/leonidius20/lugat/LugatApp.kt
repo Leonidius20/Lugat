@@ -10,6 +10,7 @@ import javax.inject.Inject
 @HiltAndroidApp
 class LugatApp: Application() {
 
+    // todo: this scope is not cancelled when the app crashes or is closed
     val applicationScope = CoroutineScope(SupervisorJob())
 
     @Inject lateinit var ttsService: TtsService

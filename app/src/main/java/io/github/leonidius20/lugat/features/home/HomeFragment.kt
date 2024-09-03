@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.search.SearchView
 import io.github.leonidius20.lugat.features.tts.ui.TtsFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,7 +102,7 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_HomeFragment_to_TtsFragment)
             },
             MenuItem(getString(R.string.main_menu_about_app), R.drawable.ic_about_app) {
-                AlertDialog.Builder(requireContext())
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.main_menu_about_app)
                     .setMessage(
                         getString(
@@ -116,6 +117,9 @@ class HomeFragment : Fragment() {
             MenuItem(getString(R.string.main_menu_source_code), R.drawable.ic_link) {
                 val intent = Intent(Intent.ACTION_VIEW, getString(R.string.github_repo_link).toUri())
                 startActivity(intent)
+            },
+            MenuItem("force crush", R.drawable.ic_back) {
+                throw RuntimeException("this is a test crush")
             }
         )
 

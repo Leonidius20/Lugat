@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.hilt)
     id("androidx.navigation.safeargs.kotlin")
     id("com.github.alexfu.androidautoversion")
+    alias(libs.plugins.googleGmsGoogleServices)
+    alias(libs.plugins.googleFirebaseCrashlytics)
 }
 
 android {
@@ -168,6 +170,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.crashlytics)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -204,4 +208,10 @@ dependencies {
     androidTestImplementation(libs.robolectric)
 
     debugImplementation(libs.androidx.fragment.testing)
+
+
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    // https://firebase.google.com/docs/android/setup#available-libraries
 }
