@@ -1,6 +1,7 @@
 package io.github.leonidius20.lugat.features.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class AccountManagementFragment : Fragment() {
         _binding = FragmentAccountManagementBinding.inflate(layoutInflater)
 
         binding.loginWithGoogleBtn.setOnClickListener {
+            Log.d("acc mgmt frgmt", "button clicked")
             onLoginWithGoogleBtnPressed()
         }
 

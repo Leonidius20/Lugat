@@ -9,15 +9,24 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.github.leonidius20.lugat.R
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Singleton
 class GoogleAuth @Inject constructor(
@@ -41,8 +50,25 @@ class GoogleAuth @Inject constructor(
     private val _state = MutableStateFlow<LoginState>(LoginState.NotLoggedIn)
     val state = _state.asStateFlow()
 
+    fun isUserLoggedIn() = Firebase.auth.currentUser != null
+
+    val currentUser: Flow<FirebaseUser?>
+        get() = callbackFlow {
+            val listener = FirebaseAuth.AuthStateListener { auth ->
+                this.trySend(auth.currentUser)
+            }
+
+            Firebase.auth.addAuthStateListener(listener)
+
+            // remove listener when consumer unsubscribes from this flow (or if calling channel.close())
+            awaitClose { Firebase.auth.removeAuthStateListener(listener) }
+        }
+
+    @OptIn(ExperimentalEncodingApi::class)
     suspend fun googleSignIn() {
         val firebaseAuth = FirebaseAuth.getInstance()
+
+        //Firebase.auth.signInWithCredential()
 
         try {
             // Initialize Credential Manager
@@ -56,11 +82,12 @@ class GoogleAuth @Inject constructor(
             val hashedNonce: String = digest.fold("") { str, it -> str + "%02x".format(it) }
 
             // Set up Google ID option
+            val clientId = String(Base64.decode(context.getString(R.string.google_client_id_base64))) // in base64 to avoid scrapping
             val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                // todo: obfuscate
-                .setServerClientId("")
-                .setNonce(hashedNonce)
+                .setAutoSelectEnabled(true)
+                .setServerClientId(clientId) // maybe it should be populated by gms gradle plugin but it is not
+                //.setNonce(hashedNonce)
                 .build()
 
             // Request credentials
@@ -90,6 +117,10 @@ class GoogleAuth @Inject constructor(
             _state.value = LoginState.Error(e)
         }
 
+    }
+
+    fun signOut() {
+        Firebase.auth.signOut()
     }
 
 }

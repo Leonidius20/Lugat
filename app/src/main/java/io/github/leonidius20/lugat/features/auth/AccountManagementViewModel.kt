@@ -17,9 +17,9 @@ class AccountManagementViewModel @Inject constructor(
     private val googleAuth: GoogleAuth,
 ) : ViewModel() {
 
-    val state = googleAuth.state.map { authState ->
+    val state = googleAuth.currentUser.map { user ->
         AccountManagementUiState(
-            isLoggedIn = authState is GoogleAuth.LoginState.LoggedIn
+            isLoggedIn = user != null
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, AccountManagementUiState(false))
 

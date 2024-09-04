@@ -54,3 +54,9 @@
 -keep class androidx.navigation.fragment.** { *; }
 
 -keep class io.github.leonidius20.lugat.** { *; }
+
+# for google play services (credentials)
+-if class androidx.credentials.CredentialManager
+-keep class androidx.credentials.playservices.** {
+    *;
+}
