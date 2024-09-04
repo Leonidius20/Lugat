@@ -1,0 +1,6 @@
+[submodule "app/src/main/assets/model"]
+	path = app/src/main/assets/model
+	url = git@github.com:Leonidius20/CrimeanTatarTTSModelOnnx.git
+[submodule "app/src/main/jniLibs"]
+	path = app/src/main/jniLibs
+	url = git@github.com:Leonidius20/SherpaOnnxBinariesAndroid.git

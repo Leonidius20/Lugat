@@ -58,7 +58,8 @@ class GoogleAuth @Inject constructor(
             // Set up Google ID option
             val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("YOUR_WEB_CLIENT_ID")
+                // todo: obfuscate
+                .setServerClientId("")
                 .setNonce(hashedNonce)
                 .build()
 
