@@ -51,7 +51,7 @@ class AccountManagementFragment : Fragment() {
     }
 
     private fun onLoginWithGoogleBtnPressed() {
-        viewModel.initLoginWithGoogleFlow()
+        viewModel.initLoginWithGoogleFlow(requireActivity())
     }
 
     private fun <T> StateFlow<T>.collectSinceStarted(flowCollector: FlowCollector<T>) {

@@ -1,5 +1,6 @@
 package io.github.leonidius20.lugat.features.auth
 
+import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +24,9 @@ class AccountManagementViewModel @Inject constructor(
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, AccountManagementUiState(false))
 
-    fun initLoginWithGoogleFlow() {
+    fun initLoginWithGoogleFlow(activityContext: Activity) {
         viewModelScope.launch {
-            googleAuth.googleSignIn()
+            googleAuth.googleSignIn(activityContext)
         }
     }
 

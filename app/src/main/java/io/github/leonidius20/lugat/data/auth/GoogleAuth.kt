@@ -1,6 +1,8 @@
 package io.github.leonidius20.lugat.data.auth
 
+import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -65,7 +67,7 @@ class GoogleAuth @Inject constructor(
         }
 
     @OptIn(ExperimentalEncodingApi::class)
-    suspend fun googleSignIn() {
+    suspend fun googleSignIn(activityContent: Activity) {
         val firebaseAuth = FirebaseAuth.getInstance()
 
         //Firebase.auth.signInWithCredential()
@@ -96,7 +98,7 @@ class GoogleAuth @Inject constructor(
                 .build()
 
             // Get the credential result
-            val result = credentialManager.getCredential(context, request)
+            val result = credentialManager.getCredential(activityContent, request)
             val credential = result.credential
 
             // Check if the received credential is a valid Google ID Token
@@ -109,12 +111,15 @@ class GoogleAuth @Inject constructor(
 
                 _state.value = LoginState.LoggedIn(authResult)
             } else {
+                Log.e("auth", "got invalid cred type")
                 throw RuntimeException("Received an invalid credential type")
             }
         } catch (e: GetCredentialCancellationException) {
             _state.value = LoginState.Error(Exception("Sign-in was canceled. Please try again."))
+            Log.e("auth", "sign in was cancelled", e)
         } catch (e: Exception) {
             _state.value = LoginState.Error(e)
+            Log.e("auth", e.message, e)
         }
 
     }
