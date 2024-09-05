@@ -9,7 +9,6 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -19,8 +18,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.leonidius20.lugat.R
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.security.MessageDigest
@@ -34,23 +31,6 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class GoogleAuth @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
-
-    sealed interface LoginState {
-
-        data object NotLoggedIn: LoginState
-
-        data class LoggedIn(
-            val authResult: AuthResult
-        ): LoginState
-
-        data class Error(
-            val throwable: Throwable
-        ): LoginState
-
-    }
-
-    private val _state = MutableStateFlow<LoginState>(LoginState.NotLoggedIn)
-    val state = _state.asStateFlow()
 
     fun isUserLoggedIn() = Firebase.auth.currentUser != null
 
@@ -109,16 +89,16 @@ class GoogleAuth @Inject constructor(
                     GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
                 val authResult = firebaseAuth.signInWithCredential(authCredential).await()
 
-                _state.value = LoginState.LoggedIn(authResult)
+                //_state.value = LoginState.LoggedIn(authResult)
             } else {
                 Log.e("auth", "got invalid cred type")
                 throw RuntimeException("Received an invalid credential type")
             }
         } catch (e: GetCredentialCancellationException) {
-            _state.value = LoginState.Error(Exception("Sign-in was canceled. Please try again."))
+            //_state.value = LoginState.Error(Exception("Sign-in was canceled. Please try again."))
             Log.e("auth", "sign in was cancelled", e)
         } catch (e: Exception) {
-            _state.value = LoginState.Error(e)
+            //_state.value = LoginState.Error(e)
             Log.e("auth", e.message, e)
         }
 

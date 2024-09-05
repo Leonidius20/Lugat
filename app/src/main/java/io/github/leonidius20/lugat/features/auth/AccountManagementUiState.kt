@@ -1,5 +1,15 @@
 package io.github.leonidius20.lugat.features.auth
 
-data class AccountManagementUiState(
-    val isLoggedIn: Boolean,
-)
+import android.net.Uri
+
+sealed interface AccountManagementUiState {
+
+    data object NotSignedIn: AccountManagementUiState
+
+    data class SignedIn(
+        val username: String,
+        val email: String,
+        val pfpUrl: Uri?,
+    ): AccountManagementUiState
+
+}

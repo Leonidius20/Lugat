@@ -1,7 +1,6 @@
 package io.github.leonidius20.lugat.features.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.databinding.FragmentAccountManagementBinding
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -33,13 +32,27 @@ class AccountManagementFragment : Fragment() {
     ): View {
         _binding = FragmentAccountManagementBinding.inflate(layoutInflater)
 
+        binding.root.displayedChild = FLIPPER_EMPTY
+
         binding.loginWithGoogleBtn.setOnClickListener {
-            Log.d("acc mgmt frgmt", "button clicked")
             onLoginWithGoogleBtnPressed()
         }
 
         viewModel.state.collectSinceStarted { state ->
-            binding.authStatusText.text = "is logged in: ${state.isLoggedIn}"
+            when (state) {
+                is AccountManagementUiState.NotSignedIn -> {
+                    binding.root.displayedChild = FLIPPER_NOT_LOGGED_IN
+                    binding.authStatusText.text = "Not logged in" // todo remove
+                }
+
+                is AccountManagementUiState.SignedIn -> {
+                    binding.root.displayedChild = FLIPPER_LOGGED_IN
+                    binding.accountUsername.text = state.username
+                    binding.accountEmail.text = state.email
+                }
+            }
+
+
         }
 
         return binding.root
@@ -54,7 +67,7 @@ class AccountManagementFragment : Fragment() {
         viewModel.initLoginWithGoogleFlow(requireActivity())
     }
 
-    private fun <T> StateFlow<T>.collectSinceStarted(flowCollector: FlowCollector<T>) {
+    private fun <T> Flow<T>.collectSinceStarted(flowCollector: FlowCollector<T>) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 this@collectSinceStarted.collect(flowCollector)
@@ -63,3 +76,7 @@ class AccountManagementFragment : Fragment() {
     }
 
 }
+
+private const val FLIPPER_EMPTY = 0
+private const val FLIPPER_NOT_LOGGED_IN = 1
+private const val FLIPPER_LOGGED_IN = 2
