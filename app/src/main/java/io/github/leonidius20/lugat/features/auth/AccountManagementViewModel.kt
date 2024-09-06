@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leonidius20.lugat.data.auth.GoogleAuth
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +19,9 @@ class AccountManagementViewModel @Inject constructor(
             AccountManagementUiState.NotSignedIn
         } else {
             AccountManagementUiState.SignedIn(
-                username = user.displayName ?: "No username",
-                email = user.email ?: "Email unknown",
-                pfpUrl = user.photoUrl,
+                username = user.name,
+                email = user.email,
+                pfpUrl = user.pfpUrl,
             )
         }
     }// .stateIn(viewModelScope, SharingStarted.Lazily, AccountManagementUiState.NotSignedIn)

@@ -50,33 +50,54 @@
         android:fillViewport="true"
         tools:context=".features.details.ui.WordDetailsFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ViewFlipper
+            android:id="@+id/word_details_loading_content_flipper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/word_details_progress_bar"
-                android:visibility="gone"
+            <!-- placeholder while is loading -->
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/small_padding"
-                android:indeterminate="true" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:padding="@dimen/large_padding"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="kava is a drink"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                app:layout_constraintTop_toBottomOf="@id/word_details_progress_bar"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:textIsSelectable="true"
-                android:id="@+id/word_details_description"/>
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/word_details_progress_bar"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="@dimen/small_padding"
+                    android:indeterminate="true" />
 
+                <TextView
+                    android:padding="@dimen/large_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="kava is a drink"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    app:layout_constraintTop_toBottomOf="@id/word_details_progress_bar"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:textIsSelectable="true"
+                    android:id="@+id/word_details_description"/>
 
+                <ImageButton
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_margin="@dimen/large_padding"
+                    android:contentDescription="add to / remove from favorites"
+                    app:layout_constraintTop_toBottomOf="@id/word_details_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/add_to_favourites_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_to_favourites"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ViewFlipper>
 
     </androidx.core.widget.NestedScrollView>
 

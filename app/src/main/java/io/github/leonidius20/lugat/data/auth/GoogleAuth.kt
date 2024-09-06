@@ -10,16 +10,18 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.leonidius20.lugat.R
+import io.github.leonidius20.lugat.domain.entities.User
+import io.github.leonidius20.lugat.domain.repository.auth.AuthRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.net.URI
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -30,14 +32,21 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 @Singleton
 class GoogleAuth @Inject constructor(
     @ApplicationContext private val context: Context,
-) {
+): AuthRepository {
 
     fun isUserLoggedIn() = Firebase.auth.currentUser != null
 
-    val currentUser: Flow<FirebaseUser?>
+    override val currentUser: Flow<User?>
         get() = callbackFlow {
             val listener = FirebaseAuth.AuthStateListener { auth ->
-                this.trySend(auth.currentUser)
+                this.trySend(auth.currentUser?.let {
+                    User(
+                        id = it.uid,
+                        name = it.displayName ?: "Unknown name",
+                        email = it.email ?: "Unknown email",
+                        pfpUrl = it.photoUrl?.toString(),
+                    )
+                })
             }
 
             Firebase.auth.addAuthStateListener(listener)

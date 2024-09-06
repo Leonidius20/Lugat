@@ -3,8 +3,6 @@ package io.github.leonidius20.lugat.data.words
 import io.github.leonidius20.lugat.data.db.WordsDao
 import io.github.leonidius20.lugat.domain.entities.WordSearchResult
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
