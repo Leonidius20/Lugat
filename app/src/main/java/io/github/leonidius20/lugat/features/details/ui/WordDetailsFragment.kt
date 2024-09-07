@@ -3,6 +3,7 @@ package io.github.leonidius20.lugat.features.details.ui
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,6 +88,7 @@ class WordDetailsFragment : LugatFragment() {
                 )
             ) {
                 collectDistinctSinceStarted({ it.isFavourite }) { isFavourite ->
+                    Log.d("WordDetailsFragment", "Fav status changed, now: ${isFavourite.name}")
                     val btnIcon = when(isFavourite) {
                         Word.CrimeanTatar.FavouriteStatus.IN_FAVOURITES -> {
                             R.drawable.ic_favourite

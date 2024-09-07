@@ -1,5 +1,6 @@
 package io.github.leonidius20.lugat.domain.interactors
 
+import android.util.Log
 import io.github.leonidius20.lugat.data.words.WordDetailsRepository
 import io.github.leonidius20.lugat.domain.entities.Word
 import io.github.leonidius20.lugat.domain.entities.WordSearchResult
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
@@ -65,6 +67,8 @@ class GetWordDetailsUseCase @Inject constructor(
                                 }
                             } ?: Word.CrimeanTatar.FavouriteStatus.LOADING,
                         )
+                    }.onEach {
+                        Log.d("GetWordDetailsUseCase", "emitting learningStatusFlow")
                     })
                 }
             }

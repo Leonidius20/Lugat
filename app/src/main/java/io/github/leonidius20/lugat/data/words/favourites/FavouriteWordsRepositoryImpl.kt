@@ -15,6 +15,8 @@ import javax.inject.Singleton
 
 private const val DEFAULT_LEARNING_PROGRESS_LEVEL = 0
 
+private const val FAVOURITE_WORDS_COLLECTION = "favourites"
+
 @Singleton
 class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsRepository {
 
@@ -32,14 +34,12 @@ class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsReposit
         val wordIdStr = wordId.toString()
 
         val userFavouriteWordsDocRef = Firebase.firestore
-            .collection("favourites")
+            .collection(FAVOURITE_WORDS_COLLECTION)
             .document(userId)
-
-        userFavouriteWordsDocRef.get().await()
 
         Firebase.firestore.runTransaction { transaction ->
             val doc = transaction.get(userFavouriteWordsDocRef)
-            val wordLearningProgressLevel = doc.get(wordIdStr) as? Int
+            val wordLearningProgressLevel = doc.get(wordIdStr, Int::class.java)
 
             if (wordLearningProgressLevel == null) { // not learning
                 transaction.set(
@@ -54,10 +54,9 @@ class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsReposit
     override fun getWordLearningProgress(userId: String, wordId: Int): Flow<WordLearningProgress> {
         return callbackFlow {
             val listener = Firebase.firestore
-                .collection("favourites")
+                .collection(FAVOURITE_WORDS_COLLECTION)
                 .document(userId)
                 .addSnapshotListener { snapshot, error ->
-                    Log.i(LOG_TAG, "Called snapshot listener for word $wordId user $userId")
                     if (error != null) {
                         Log.w(LOG_TAG, "Listen failed.", error)
                         trySend(WordLearningProgress.NotLearning)
@@ -66,18 +65,20 @@ class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsReposit
 
                     if (snapshot == null || !snapshot.exists()) {
                         // this user doesn't learn any words at all so document for them wasn't even created
-                        Log.i(LOG_TAG, "not learning this word")
+                        Log.d("FavWordsRepoImpl", "Sending NOT LEARNING  id $wordId (no doc)")
                         trySend(WordLearningProgress.NotLearning)
                         return@addSnapshotListener
                     }
 
-                    val learningProgressLevel = snapshot.get(wordId.toString()) as? Int
+                    val learningProgressLevel = snapshot.get(wordId.toString(), Int::class.java)
 
                     if (learningProgressLevel == null) {
                         // the field doesn't exist, meaning that it is not saved to fav
+                        Log.d("FavWordsRepoImpl", "Sending NOT LEARNING id $wordId")
                         trySend(WordLearningProgress.NotLearning)
                         return@addSnapshotListener
                     } else {
+                        Log.d("FavWordsRepoImpl", "Sending LEARNING  id $wordId")
                         trySend(
                             WordLearningProgress.Learning(
                                 learningProgressLevel

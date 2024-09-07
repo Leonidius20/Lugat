@@ -1,5 +1,6 @@
 package io.github.leonidius20.lugat.domain.interactors
 
+import android.util.Log
 import io.github.leonidius20.lugat.domain.entities.Word
 import io.github.leonidius20.lugat.domain.repository.auth.AuthRepository
 import io.github.leonidius20.lugat.domain.repository.word.favourites.FavouriteWordsRepository
@@ -15,7 +16,9 @@ class SaveWordToFavouritesUseCase @Inject constructor(
 
     suspend fun execute(wordId: Int) {
         val userId = authRepository.currentUser.first()?.id
-            ?: throw Error("User is not logged in") // todo: custom exception?
+            ?: throw Error("User is not logged in").also {
+                Log.e("SaveWordToFavUseCase", "User is not logged in, cannot save")
+            } // todo: custom exception?
 
         favouriteWordsRepository.saveWordToFavouritesForUser(
             userId = userId, wordId = wordId
