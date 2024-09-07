@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,19 +43,27 @@ class GetWordDetailsUseCase @Inject constructor(
                 is WordSearchResult.CrimeanTatar -> {
                     val userId = authRepository.currentUser.first()?.id
 
-                    val learningStatusFlow =
+                    val learningStatusFlow: Flow<WordLearningProgress?> =
                         if (userId == null)
-                            flowOf(false)
+                            flowOf(WordLearningProgress.NotLearning)
                         else favouriteWordsRepository
                             .getWordLearningProgress(userId, wordId)
 
-                    emitAll(learningStatusFlow.map { wordLearningStatus ->
+                    // combine in such a way that emits word details right away
+                    // without waiting for learning status, but not vice versa
+
+                    emitAll(learningStatusFlow.onStart { emit(null) }.map { wordLearningStatus ->
                         Word.CrimeanTatar(
                             id = baseDetails.id,
                             wordLatin = baseDetails.wordLatin,
                             wordCyrillic = baseDetails.wordCyrillic,
                             translation = baseDetails.translation,
-                            isInFavourites = wordLearningStatus is WordLearningProgress.Learning,
+                            isInFavourites = wordLearningStatus?.let {
+                                when (wordLearningStatus) {
+                                    is WordLearningProgress.Learning -> Word.CrimeanTatar.FavouriteStatus.IN_FAVOURITES
+                                    is WordLearningProgress.NotLearning -> Word.CrimeanTatar.FavouriteStatus.NOT_IN_FAVOURITES
+                                }
+                            } ?: Word.CrimeanTatar.FavouriteStatus.LOADING,
                         )
                     })
                 }

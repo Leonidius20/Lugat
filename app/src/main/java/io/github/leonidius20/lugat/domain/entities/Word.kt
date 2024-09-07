@@ -7,8 +7,16 @@ sealed interface Word {
         val wordLatin: String,
         val wordCyrillic: String,
         val translation: String,
-        val isInFavourites: Boolean,
-    ): Word
+        val isInFavourites: FavouriteStatus,
+    ): Word {
+
+        enum class FavouriteStatus {
+            LOADING,
+            NOT_IN_FAVOURITES,
+            IN_FAVOURITES,
+        }
+
+    }
 
     data class Russian(
         val id: Int,

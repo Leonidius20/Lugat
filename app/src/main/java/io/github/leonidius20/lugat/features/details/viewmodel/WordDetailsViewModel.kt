@@ -46,7 +46,7 @@ class WordDetailsViewModel @Inject constructor(
                 val wordLatin: String,
                 override val description: String,
                 override val languageStr: String,
-                val isFavourite: Boolean,
+                val isFavourite: Word.CrimeanTatar.FavouriteStatus,
                 //override val ttsState: TtsState,
             ) : Loaded {
                 override val title
@@ -83,6 +83,11 @@ class WordDetailsViewModel @Inject constructor(
     val ttsState: StateFlow<TtsState> = _ttsState // todo: get from ttsservice and map
 
     private val wordId = WordDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle).wordId
+
+
+    // todo: split wordUiState from favouriteStatusUiState and make them separate flows?
+    // or add 3 states for favourite: Loading, Saved, NotSaved
+    // (but easire
 
     val wordUiState = getWordDetailsUseCase.execute(wordId).map { word ->
         when(word) {
@@ -149,10 +154,12 @@ class WordDetailsViewModel @Inject constructor(
     fun toggleFavouriteStatus() {
         (wordUiState.value as? UiState.Loaded.CrimeanTatar)?.let { state ->
             viewModelScope.launch {
-                if (state.isFavourite) {
+                if (state.isFavourite == Word.CrimeanTatar.FavouriteStatus.IN_FAVOURITES) {
                     removeWordFromFavouritesUseCase.execute(state.id)
-                } else {
+                } else if (state.isFavourite == Word.CrimeanTatar.FavouriteStatus.NOT_IN_FAVOURITES) {
                     saveWordToFavouritesUseCase.execute(state.id)
+                } else {
+                    // ignore
                 }
             }
         }
