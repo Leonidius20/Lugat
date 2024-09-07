@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import io.github.leonidius20.lugat.domain.entities.WordBeingLearned
 import io.github.leonidius20.lugat.domain.entities.params.WordLearningProgress
 import io.github.leonidius20.lugat.domain.repository.word.favourites.FavouriteWordsRepository
 import kotlinx.coroutines.channels.awaitClose
@@ -88,6 +89,16 @@ class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsReposit
             awaitClose { listener.remove() }
         }
 
+    }
+
+    override suspend fun getFavouriteWordsForUser(userId: String): List<WordBeingLearned> {
+        return Firebase.firestore
+            .collection(FAVOURITE_WORDS_COLLECTION)
+            .document(userId)
+            .get().await()
+            .data?.map { (key, value) ->
+                WordBeingLearned(wordId = key.toInt(), learningProgressLevel = value as Int) // or toString.toInt
+            } ?: emptyList()
     }
 
 }

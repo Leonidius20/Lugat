@@ -123,6 +123,11 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeToAccountManagement()
                 )
+            },
+            MenuItem("Favourite words", R.drawable.ic_favourite) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeToFavouriteWords()
+                )
             }
         )
 
