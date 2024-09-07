@@ -37,18 +37,15 @@ class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsReposit
             .collection(FAVOURITE_WORDS_COLLECTION)
             .document(userId)
 
-        Firebase.firestore.runTransaction { transaction ->
-            val doc = transaction.get(userFavouriteWordsDocRef)
-            val wordLearningProgressLevel = doc.get(wordIdStr, Int::class.java)
+        val doc = userFavouriteWordsDocRef.get().await()
+        val wordLearningProgressLevel = doc.get(wordIdStr, Int::class.java)
 
-            if (wordLearningProgressLevel == null) { // not learning
-                transaction.set(
-                    userFavouriteWordsDocRef,
-                    hashMapOf(wordIdStr to DEFAULT_LEARNING_PROGRESS_LEVEL),
-                    SetOptions.merge()
-                )
-            }
-        }.await()
+        if (wordLearningProgressLevel == null) { // not learning
+            userFavouriteWordsDocRef.set(
+                hashMapOf(wordIdStr to DEFAULT_LEARNING_PROGRESS_LEVEL),
+                SetOptions.merge()
+            ).await()
+        }
     }
 
     override fun getWordLearningProgress(userId: String, wordId: Int): Flow<WordLearningProgress> {
