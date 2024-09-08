@@ -91,14 +91,16 @@ class FavouriteWordsRepositoryImpl @Inject constructor() : FavouriteWordsReposit
 
     }
 
-    override suspend fun getFavouriteWordsForUser(userId: String): List<WordBeingLearned> {
-        return Firebase.firestore
+    override suspend fun getFavouriteWordsForUser(userId: String): ArrayList<WordBeingLearned> {
+        val data = Firebase.firestore
             .collection(FAVOURITE_WORDS_COLLECTION)
             .document(userId)
             .get().await()
-            .data?.map { (key, value) ->
-                WordBeingLearned(wordId = key.toInt(), learningProgressLevel = value as Int) // or toString.toInt
-            } ?: emptyList()
+            .data
+
+        return data?.mapTo(ArrayList(data.size)) { (key, value) ->
+            WordBeingLearned(wordId = key.toInt(), learningProgressLevel = value.toString().toInt()) // or toString.toInt
+        } ?: ArrayList(0)
     }
 
 }

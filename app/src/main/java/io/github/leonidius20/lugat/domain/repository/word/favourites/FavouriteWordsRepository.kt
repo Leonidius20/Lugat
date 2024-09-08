@@ -10,6 +10,9 @@ interface FavouriteWordsRepository {
 
     fun getWordLearningProgress(userId: String, wordId: Int): Flow<WordLearningProgress>
 
-    suspend fun getFavouriteWordsForUser(userId: String): List<WordBeingLearned>
+    /**
+     * @return arraylist bc it will be used in a list adapter
+     */
+    suspend fun getFavouriteWordsForUser(userId: String): ArrayList<WordBeingLearned>
 
 }

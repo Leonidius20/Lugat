@@ -1,17 +1,16 @@
 package io.github.leonidius20.lugat.features.home.ui
 
-import android.os.Build
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.leonidius20.lugat.databinding.SearchResultItemBinding
 import io.github.leonidius20.lugat.features.common.ui.WordSearchResultUi
+import io.github.leonidius20.lugat.features.common.ui.htmlSpannable
 
 class SearchResultListAdapter(
     private val dataset: List<WordSearchResultUi>,
     private val onItemClick: (WordSearchResultUi) -> Unit,
-): RecyclerView.Adapter<SearchResultListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<SearchResultListAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: SearchResultItemBinding) : RecyclerView.ViewHolder(binding.root) {
         // title text view, description text view
@@ -22,7 +21,8 @@ class SearchResultListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = SearchResultItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            SearchResultItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -31,11 +31,7 @@ class SearchResultListAdapter(
 
         holder.titleView.text = data.title
 
-        holder.descriptionView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(data.description, Html.FROM_HTML_MODE_COMPACT)
-        } else {
-            Html.fromHtml(data.description)
-        }
+        holder.descriptionView.text = htmlSpannable(data.description)
 
         holder.languageChip.text = data.languageStr
 

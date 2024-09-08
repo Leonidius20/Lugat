@@ -47,8 +47,15 @@ class FavouriteWordsFragment: LugatFragment() {
                 }
                 is FavouriteWordsUiState.Loaded -> {
                     binding.root.displayedChild = FLIPPER_CONTENT
-                    Toast.makeText(requireContext(), "LOADED", Toast.LENGTH_SHORT).show()
-                    // binding.favouriteWordsList.adapter = ListAdapter
+                    binding.favouriteWordsList.adapter = FavouriteWordsAdapter(
+                        ArrayList(it.list), onItemClick = { item ->
+                            Toast.makeText(
+                                requireContext(),
+                                "item id ${item.id}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
                 }
             }
         }
