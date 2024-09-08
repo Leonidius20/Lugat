@@ -1,4 +1,4 @@
-package io.github.leonidius20.lugat.features.auth
+package io.github.leonidius20.lugat.features.auth.models
 
 sealed interface AccountManagementUiState {
 

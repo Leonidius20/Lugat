@@ -55,6 +55,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <Button
+            android:id="@+id/sign_out_btn"
+            android:layout_margin="@dimen/large_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acc_sign_out"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ViewFlipper>

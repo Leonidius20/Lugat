@@ -33,6 +33,12 @@ class FavouriteWordsFragment: LugatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.signInButton.setOnClickListener {
+            findNavController().navigate(
+                FavouriteWordsFragmentDirections.actionFavWordsToAccMgmt()
+            )
+        }
+
         viewModel.state.collectSinceStarted {
             when(it) {
                 is FavouriteWordsUiState.Loading -> {

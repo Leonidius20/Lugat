@@ -116,10 +116,7 @@ class HomeFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_VIEW, getString(R.string.github_repo_link).toUri())
                 startActivity(intent)
             },
-            MenuItem("force crush", R.drawable.ic_back) {
-                throw RuntimeException("this is a test crush")
-            },
-            MenuItem("Account management", R.drawable.giray_tamga) {
+            MenuItem("Account management", R.drawable.ic_account_management) {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeToAccountManagement()
                 )

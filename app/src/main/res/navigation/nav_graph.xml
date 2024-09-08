@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/accountManagementFragment"
-        android:name="io.github.leonidius20.lugat.features.auth.AccountManagementFragment"
+        android:name="io.github.leonidius20.lugat.features.auth.views.AccountManagementFragment"
         tools:layout="@layout/fragment_account_management"/>
 
     <fragment
@@ -73,6 +73,10 @@
         <action
             android:id="@+id/action_FavWords_to_WordDetails"
             app:destination="@id/WordDetailsFragment" />
+
+        <action
+            android:id="@+id/action_favWords_to_AccMgmt"
+            app:destination="@id/accountManagementFragment"/>
 
     </fragment>
 
