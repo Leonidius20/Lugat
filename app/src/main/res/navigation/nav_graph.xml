@@ -68,6 +68,12 @@
     <fragment
         android:id="@+id/favouriteWordsFragment"
         android:name="io.github.leonidius20.lugat.features.favourites.views.FavouriteWordsFragment"
-        tools:layout="@layout/fragment_favourite_words"/>
+        tools:layout="@layout/fragment_favourite_words">
+
+        <action
+            android:id="@+id/action_FavWords_to_WordDetails"
+            app:destination="@id/WordDetailsFragment" />
+
+    </fragment>
 
 </navigation>

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leonidius20.lugat.databinding.FragmentFavouriteWordsBinding
 import io.github.leonidius20.lugat.features.common.ui.LugatFragment
@@ -49,11 +49,9 @@ class FavouriteWordsFragment: LugatFragment() {
                     binding.root.displayedChild = FLIPPER_CONTENT
                     binding.favouriteWordsList.adapter = FavouriteWordsAdapter(
                         ArrayList(it.list), onItemClick = { item ->
-                            Toast.makeText(
-                                requireContext(),
-                                "item id ${item.id}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            findNavController().navigate(
+                                FavouriteWordsFragmentDirections.actionFavWordsToWordDetails(item.id)
+                            )
                         }
                     )
                 }
